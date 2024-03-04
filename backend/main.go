@@ -1,9 +1,12 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
-	"encoding/json"
+
+	"github.com/gorilla/mux"
+	"github.com/rs/cors"
 )
 
 type Data struct {
@@ -24,8 +27,11 @@ func helloHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	router := mux.NewRouter()
+	corsHeader := cors.Default().Handler(router)
+
 	http.HandleFunc("/api/hello", helloHandler)
 
 	fmt.Println("Server is listening on port 8080...")
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(":8080", corsHeader)
 }
