@@ -2,9 +2,10 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"os"
+
+	"github.com/labstack/echo/v4"
 )
 
 type NowPlayingApiResponse struct {
@@ -21,50 +22,26 @@ type NowPlayingMovie struct {
 	ReleaseDate   string `json:"release_date"`
 }
 
-func GetNowPlayingMoviesHandler(w http.ResponseWriter, r *http.Request) {
+func GetNowPlayingMoviesHandler(c echo.Context) error {
 	// クエリパラメーターからページ番号を取得
-	pageNumber := r.URL.Query().Get("page")
-	if pageNumber == "" {
-		pageNumber = "1" // デフォルトのページ番号を設定
+	page := c.QueryParam("page")
+	if page == "" {
+		page = "1" // デフォルトのページ番号を設定
 	}
 
 	apiKey := os.Getenv("TMDB_API_KEY")
-	url := fmt.Sprintf("https://api.themoviedb.org/3/movie/now_playing?api_key=%s&language=ja-JP&page=%s", apiKey, pageNumber)
+	url := "https://api.themoviedb.org/3/movie/now_playing?api_key=" + apiKey + "&language=ja-JP&page=" + page
 
 	resp, err := http.Get(url)
 	if err != nil {
-		http.Error(w, "Failed to fetch movies", http.StatusInternalServerError)
-		return
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to fetch movies"})
 	}
 	defer resp.Body.Close()
 
 	var apiResponse NowPlayingApiResponse
 	if err := json.NewDecoder(resp.Body).Decode(&apiResponse); err != nil {
-		http.Error(w, "Failed to decode movies response", http.StatusInternalServerError)
-		return
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to decode movies response"})
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(apiResponse.Results)
-}
-
-func GetTotalPagesHandler(w http.ResponseWriter, r *http.Request) {
-	apiKey := os.Getenv("TMDB_API_KEY")
-	url := fmt.Sprintf("https://api.themoviedb.org/3/movie/now_playing?api_key=%s&language=ja-JP", apiKey)
-
-	resp, err := http.Get(url)
-	if err != nil {
-		http.Error(w, "Failed to fetch total pages", http.StatusInternalServerError)
-		return
-	}
-	defer resp.Body.Close()
-
-	var apiResponse NowPlayingApiResponse
-	if err := json.NewDecoder(resp.Body).Decode(&apiResponse); err != nil {
-		http.Error(w, "Failed to decode  total pages response", http.StatusInternalServerError)
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(apiResponse.TotalPages)
+	return c.JSON(http.StatusOK, apiResponse)
 }

@@ -14,6 +14,7 @@ func main() {
 	e.Use(middleware.Recover())
 
 	e.GET("/api/movies/popular", GetPopularMoviesHandler)
+	e.GET("/api/movies/now_playing", GetNowPlayingMoviesHandler)
 	e.GET("/api/movies/details", GetMovieDetailsHandler)
 
 	httpPort := os.Getenv("PORT")
