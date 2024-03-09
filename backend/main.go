@@ -1,39 +1,20 @@
 package main
 
 import (
+	"log"
 	"net/http"
-	"os"
 
-	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
+	"github.com/joho/godotenv"
 )
 
 func main() {
-
-	e := echo.New()
-
-	e.Use(middleware.Logger())
-	e.Use(middleware.Recover())
-
-	e.GET("/", func(c echo.Context) error {
-		return c.HTML(http.StatusOK, "Hello, Docker! <3")
-	})
-
-	e.GET("/health", func(c echo.Context) error {
-		return c.JSON(http.StatusOK, struct{ Status string }{Status: "OK"})
-	})
-
-	httpPort := os.Getenv("PORT")
-	if httpPort == "" {
-		httpPort = "8080"
+	// .envファイルから環境変数を読み込む
+	if err := godotenv.Load(); err != nil {
+		log.Fatal("Error loading .env file")
 	}
 
-	e.Logger.Fatal(e.Start(":" + httpPort))
-}
+	http.HandleFunc("/api/movies/popular", GetPopularMoviesHandler)
 
-func IntMin(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
+	log.Println("Server starting on port 8080...")
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
