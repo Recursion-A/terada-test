@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Pager, ListCard } from '@freee_jp/vibes';
+import NavigationBar from './NavigationBar';
 
 type Movie = {
   id: number;
@@ -51,6 +52,7 @@ const PopularMovies: React.FC = () => {
 
   return (
     <div>
+      <NavigationBar/>
       <h2>人気の映画</h2>
       <ul style={gridContainerStyle}>
         {movies.map(movie => (
