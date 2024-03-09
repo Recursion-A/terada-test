@@ -9,12 +9,17 @@ import (
 )
 
 func main() {
+	// if err := godotenv.Load(); err != nil {
+	// 	log.Fatal("Error loading .env file")
+	// }
 
 	e := echo.New()
 
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
+	e.GET("/api/movies/popular", GetPopularMoviesHandler)
+	// e.GET("/api/movies/details", GetMovieDetailsHandler)
 	e.GET("/", func(c echo.Context) error {
 		return c.HTML(http.StatusOK, "Hello, Docker! <3")
 	})
@@ -29,11 +34,4 @@ func main() {
 	}
 
 	e.Logger.Fatal(e.Start(":" + httpPort))
-}
-
-func IntMin(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
 }
