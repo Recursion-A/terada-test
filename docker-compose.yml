@@ -22,7 +22,9 @@ services:
     tty: true
     ports:
       - 8080:8080
-
+    env_file:
+      - ./.env
+      
   db:
     image: mysql
     platform: linux/amd64

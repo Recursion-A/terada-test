@@ -8,13 +8,30 @@ import (
 )
 
 func main() {
-	// .envファイルから環境変数を読み込む
-	if err := godotenv.Load(); err != nil {
-		log.Fatal("Error loading .env file")
+  
+	// if err := godotenv.Load(); err != nil {
+	// 	log.Fatal("Error loading .env file")
+	// }
+
+	e := echo.New()
+
+	e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
+
+	e.GET("/api/movies/popular", GetPopularMoviesHandler)
+	// e.GET("/api/movies/details", GetMovieDetailsHandler)
+	e.GET("/", func(c echo.Context) error {
+		return c.HTML(http.StatusOK, "Hello, Docker! <3")
+	})
+
+	e.GET("/health", func(c echo.Context) error {
+		return c.JSON(http.StatusOK, struct{ Status string }{Status: "OK"})
+	})
+
+	httpPort := os.Getenv("PORT")
+	if httpPort == "" {
+		httpPort = "8080"
 	}
 
-	http.HandleFunc("/api/movies/popular", GetPopularMoviesHandler)
-
-	log.Println("Server starting on port 8080...")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	e.Logger.Fatal(e.Start(":" + httpPort))
 }
