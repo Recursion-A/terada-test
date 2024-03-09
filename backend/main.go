@@ -1,14 +1,14 @@
 package main
 
 import (
+	"log"
 	"net/http"
-	"os"
 
-	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
+	"github.com/joho/godotenv"
 )
 
 func main() {
+  
 	// if err := godotenv.Load(); err != nil {
 	// 	log.Fatal("Error loading .env file")
 	// }
