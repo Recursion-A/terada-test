@@ -43,8 +43,12 @@ func GetPopularMoviesHandler(c echo.Context) error {
 }
 
 func GetMovieDetailsHandler(c echo.Context) error {
+	movieID := c.QueryParam("id")
 	apiKey := os.Getenv("TMDB_API_KEY")
-	movieID := c.Param("id")
+
+	if movieID == "" {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Movie ID is required"})
+	}
 
 	url := "https://api.themoviedb.org/3/movie/" + movieID + "?api_key=" + apiKey + "&language=ja-JP"
 	resp, err := http.Get(url)
