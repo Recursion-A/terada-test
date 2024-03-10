@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { FloatingBase } from '@freee_jp/vibes'
 
 interface Movie {
   id: number
@@ -12,6 +11,21 @@ interface Movie {
   runtime: number
 }
 
+const containerStyle: React.CSSProperties = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: '24px',
+  width: '1080px',
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  border: 'solid 4px black',
+  borderRadius: '20px',
+  padding: '16px'
+}
+
 const titleStyle = {
   borderBottom: 'solid 2px black'
 }
@@ -20,19 +34,21 @@ const imageStyle = {
   border: 'solid 4px black'
 }
 
-const infoStyle = {
+const infoStyle: React.CSSProperties = {
   display: 'flex',
   alignItems: 'start',
   justifyContent: 'center',
+  flexWrap: 'wrap',
   gap: '24px'
 }
 
-const overviewStyle = {
+const overviewStyle: React.CSSProperties = {
   marginTop: '24px',
-  width: '400px',
+  width: '240px',
+  height: '120px',
   border: 'solid 2px black',
-  borderRadius: '20px',
-  padding: '8px'
+  padding: '4px 8px',
+  overflowY: 'scroll'
 }
 
 function MovieDetails() {
@@ -55,13 +71,15 @@ function MovieDetails() {
   if (!movie) return <div>Loading...</div>
 
   return (
-    <FloatingBase>
-      <h1 style={titleStyle}>{movie.title}</h1>
-      <img
-        src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
-        alt={movie.title}
-        style={imageStyle}
-      />
+    <div style={containerStyle}>
+      <div>
+        <h1 style={titleStyle}>{movie.title}</h1>
+        <img
+          src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
+          alt={movie.title}
+          style={imageStyle}
+        />
+      </div>
       <div style={infoStyle}>
         <div style={overviewStyle}>
           <h2>公開日</h2>
@@ -80,7 +98,7 @@ function MovieDetails() {
           <p>{movie.overview}</p>
         </div>
       </div>
-    </FloatingBase>
+    </div>
   )
 }
 
