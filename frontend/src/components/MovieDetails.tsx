@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 
 interface Movie {
   id: number
@@ -34,6 +34,13 @@ const imageStyle = {
   border: 'solid 4px black'
 }
 
+const rightContentsStyle: React.CSSProperties = {
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  flexDirection: 'column'
+}
+
 const infoStyle: React.CSSProperties = {
   display: 'flex',
   alignItems: 'start',
@@ -51,9 +58,27 @@ const overviewStyle: React.CSSProperties = {
   overflowY: 'scroll'
 }
 
+const buttonContainerStyle = {
+  width: '120px',
+  height: '80px',
+  border: 'solid 4px black',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  marginTop: '40px'
+}
+
+const buttonStyle = {
+  width: '100%',
+  height: '100%',
+  fontSize: '24px'
+}
+
 function MovieDetails() {
   const { id } = useParams<{ id: string }>()
   const [movie, setMovie] = useState<Movie | null>(null)
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (!id) return
@@ -80,22 +105,29 @@ function MovieDetails() {
           style={imageStyle}
         />
       </div>
-      <div style={infoStyle}>
-        <div style={overviewStyle}>
-          <h2>公開日</h2>
-          <p>{movie.release_date}</p>
+      <div style={rightContentsStyle}>
+        <div style={infoStyle}>
+          <div style={overviewStyle}>
+            <h2>公開日</h2>
+            <p>{movie.release_date}</p>
+          </div>
+          <div style={overviewStyle}>
+            <h2>時間</h2>
+            <p>{movie.runtime}分</p>
+          </div>
+          <div style={overviewStyle}>
+            <h2>キャッチフレーズ</h2>
+            <p>{movie.tagline}</p>
+          </div>
+          <div style={overviewStyle}>
+            <h2>概要</h2>
+            <p>{movie.overview}</p>
+          </div>
         </div>
-        <div style={overviewStyle}>
-          <h2>時間</h2>
-          <p>{movie.runtime}分</p>
-        </div>
-        <div style={overviewStyle}>
-          <h2>キャッチフレーズ</h2>
-          <p>{movie.tagline}</p>
-        </div>
-        <div style={overviewStyle}>
-          <h2>概要</h2>
-          <p>{movie.overview}</p>
+        <div style={buttonContainerStyle}>
+          <button style={buttonStyle} onClick={() => navigate(-1)}>
+            戻る
+          </button>
         </div>
       </div>
     </div>
