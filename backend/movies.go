@@ -94,3 +94,32 @@ func GetMovieSearchHandler(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, apiResponse)
 }
+
+func GetMoviesForHomePage(c echo.Context) error {
+	apiKey := os.Getenv("TMDB_API_KEY")
+	popularMoviesURL := fmt.Sprintf("https://api.themoviedb.org/3/movie/popular?api_key=%s&language=ja-JP&page=1", apiKey)
+	topRatedMoviesURL := fmt.Sprintf("https://api.themoviedb.org/3/movie/top_rated?api_key=%s&language=ja-JP&page=1", apiKey)
+
+	popularMovies, _ := fetchMovies(popularMoviesURL)
+	topRatedMovies, _ := fetchMovies(topRatedMoviesURL)
+
+	return c.JSON(http.StatusOK, echo.Map{
+		"popular_movies":   popularMovies.Results[:7],
+		"top_rated_movies": topRatedMovies.Results[:7],
+	})
+}
+
+func fetchMovies(url string) (*ApiResponse, error) {
+	resp, err := http.Get(url)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	var apiResponse ApiResponse
+	if err := json.NewDecoder(resp.Body).Decode(&apiResponse); err != nil {
+		return nil, err
+	}
+
+	return &apiResponse, nil
+}

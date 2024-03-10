@@ -13,6 +13,7 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
+	e.GET("/api/movies", GetMoviesForHomePage)
 	e.GET("/api/movies/popular", GetPopularMoviesHandler)
 	e.GET("/api/movies/now_playing", GetNowPlayingMoviesHandler)
 	e.GET("/api/movies/top_rated", GetTopRatedMoviesHandler)
