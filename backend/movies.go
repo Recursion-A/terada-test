@@ -25,14 +25,14 @@ type ApiResponse struct {
 	TotalPages int     `json:"total_pages"`
 }
 
-func GetPopularMoviesHandler(c echo.Context) error {
+func GetUpcomingMoviesHandler(c echo.Context) error {
 	apiKey := os.Getenv("TMDB_API_KEY")
 	page := c.QueryParam("page")
 	if page == "" {
 		page = "1"
 	}
 
-	url := "https://api.themoviedb.org/3/movie/popular?api_key=" + apiKey + "&language=ja-JP&page=" + page
+	url := "https://api.themoviedb.org/3/movie/upcoming?api_key=" + apiKey + "&language=ja-JP&page=" + page
 	resp, err := http.Get(url)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to fetch movies"})

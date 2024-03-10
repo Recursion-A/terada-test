@@ -8,7 +8,7 @@ const NavigationBar: React.FC = () => {
     const links = [
       { title: 'ホーム', url: '/', IconComponent: MdHome },
       { title: '上映中の映画', url: '/now_playing', IconComponent: MdInbox },
-      { title: '人気の映画', url: '/popular_movies', IconComponent: MdAssessment },
+      { title: '近日公開の映画', url: '/upcoming', IconComponent: MdAssessment },
       { title: '評価の高い映画', url: '/top_rated', IconComponent: MdAssessment },
       { title: 'お気に入りの映画', url: '/favorites', IconComponent: MdLibraryBooks },
       { title: 'レビューした映画', url: '/reviews', IconComponent: MdCreditCard },

@@ -35,13 +35,13 @@ const CustomListCard: React.FC<Movie & { poster_path: string }> = ({ title, post
   </div>
 );
 
-const PopularMovies: React.FC = () => {
+const UpcomingMovies: React.FC = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
-    fetch(`/api/movies/popular?page=${page}`)
+    fetch(`/api/movies/upcoming?page=${page}`)
       .then(response => response.json())
       .then(data => {
         setMovies(data.results || []);
@@ -53,7 +53,7 @@ const PopularMovies: React.FC = () => {
   return (
     <div>
       <NavigationBar />
-      <h2>人気の映画</h2>
+      <h2>上映予定の映画</h2>
       <ul style={gridContainerStyle}>
         {movies.map(movie => (
           <li key={movie.id} style={{ marginBottom: '20px' }}>
@@ -70,4 +70,4 @@ const PopularMovies: React.FC = () => {
   );
 };
 
-export default PopularMovies;
+export default UpcomingMovies;
