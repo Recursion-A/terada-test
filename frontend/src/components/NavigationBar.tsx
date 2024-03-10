@@ -1,7 +1,7 @@
 import { GlobalNavi } from "@freee_jp/vibes";
 import { useLocation } from "react-router";
 import { MdHome, MdInbox, MdAssessment, MdLibraryBooks, MdCreditCard, MdSettings, MdSearch } from 'react-icons/md';
-const NavigationBar: React.FC = () =>{
+const NavigationBar: React.FC = () => {
   const location = useLocation();
 
   const generateLinks = () => {
@@ -13,7 +13,7 @@ const NavigationBar: React.FC = () =>{
       { title: 'お気に入りの映画', url: '/favorites', IconComponent: MdLibraryBooks },
       { title: 'レビューした映画', url: '/reviews', IconComponent: MdCreditCard },
       { title: 'アカウント登録', url: '/register', IconComponent: MdSettings },
-      { title: '映画をタイトルで検索', url: '/search', IconComponent: MdSearch},
+      { title: '映画をタイトルで検索', url: '/search', IconComponent: MdSearch },
     ];
     return links.map(link => ({
       ...link,

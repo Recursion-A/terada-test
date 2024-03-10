@@ -43,11 +43,11 @@ const SearchMovies: React.FC = () => {
 
   useEffect(() => {
     const fetchMovies = async () => {
-    if (query) {
-      const response = await fetch(`/api/movies/search?query=${encodeURIComponent(query)}&page=${page}`);
-      const data = await response.json();
-      setMovies(data.results || []);
-      setTotalPages(data.total_pages > 500 ? 500 : data.total_pages);
+      if (query) {
+        const response = await fetch(`/api/movies/search?query=${encodeURIComponent(query)}&page=${page}`);
+        const data = await response.json();
+        setMovies(data.results || []);
+        setTotalPages(data.total_pages > 500 ? 500 : data.total_pages);
       }
     };
 
@@ -58,9 +58,9 @@ const SearchMovies: React.FC = () => {
 
   return (
     <div>
-    <NavigationBar />
+      <NavigationBar />
       <h2>映画検索</h2>
-      <SearchField value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search for movies..."/>
+      <SearchField value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search for movies..." />
       <ul style={gridContainerStyle}>
         {movies.map((movie) => (
           <li key={movie.id} style={{ marginBottom: '20px' }}>
