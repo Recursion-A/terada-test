@@ -11,10 +11,13 @@ import (
 )
 
 type Movie struct {
-	ID         int    `json:"id"`
-	Title      string `json:"title"`
-	Overview   string `json:"overview"`
-	PosterPath string `json:"poster_path"`
+	ID          int    `json:"id"`
+	Title       string `json:"title"`
+	Overview    string `json:"overview"`
+	PosterPath  string `json:"poster_path"`
+	ReleaseDate string `json:"release_date"`
+	Tagline     string `json:"tagline"`
+	Runtime     int    `json:"runtime"`
 }
 
 type ApiResponse struct {
