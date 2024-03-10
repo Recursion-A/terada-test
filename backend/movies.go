@@ -69,16 +69,14 @@ func GetMovieDetailsHandler(c echo.Context) error {
 
 func GetMovieSearchHandler(c echo.Context) error {
 	apiKey := os.Getenv("TMDB_API_KEY")
-	query := c.QueryParam("query") // 検索クエリを取得
+	query := c.QueryParam("query")
 	page := c.QueryParam("page")
 	if page == "" {
 		page = "1"
 	}
 
-	// URLエンコードされたクエリ文字列を作成
 	encodedQuery := url.QueryEscape(query)
 
-	// 日本語設定を含む検索用のURL
 	url := fmt.Sprintf("https://api.themoviedb.org/3/search/movie?query=%s&include_adult=false&language=ja-JP&page=%s&api_key=%s", encodedQuery, page, apiKey)
 	resp, err := http.Get(url)
 	if err != nil {
