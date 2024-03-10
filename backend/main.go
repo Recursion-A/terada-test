@@ -17,6 +17,7 @@ func main() {
 	e.GET("/api/movies/now_playing", GetNowPlayingMoviesHandler)
 	e.GET("/api/movies/top_rated", GetTopRatedMoviesHandler)
 	e.GET("/api/movies/details", GetMovieDetailsHandler)
+	e.GET("/api/movies/search", GetMovieSearchHandler)
 
 	httpPort := os.Getenv("PORT")
 	if httpPort == "" {

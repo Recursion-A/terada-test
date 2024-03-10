@@ -5,6 +5,7 @@ import PopularMovies from './components/PopularMovies';
 import MovieDetails from './components/MovieDetails';
 import NowPlayingMovies from './components/NowPlayingMovies';
 import TopRatedMovies from './components/TopRatedMovies';
+import SearchMovies from './components/SearchMovies';
 
 const App: React.FC = () => {
   return (
@@ -15,6 +16,7 @@ const App: React.FC = () => {
         <Route path="/movie/:id" element={<MovieDetails/>}/>
         <Route path='/now_playing' element={<NowPlayingMovies/>} />
         <Route path='/top_rated' element={<TopRatedMovies/>} />
+        <Route path='/search' element={<SearchMovies/>} />
       </Routes>
     </Router>
   );
