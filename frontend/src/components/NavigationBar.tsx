@@ -1,6 +1,6 @@
 import { GlobalNavi } from "@freee_jp/vibes";
 import { useLocation } from "react-router";
-import { MdHome, MdInbox, MdAssessment, MdLibraryBooks, MdCreditCard, MdSettings, MdRouter } from 'react-icons/md';
+import { MdHome, MdInbox, MdAssessment, MdLibraryBooks, MdCreditCard, MdSettings, MdSearch } from 'react-icons/md';
 const NavigationBar: React.FC = () =>{
   const location = useLocation();
 
@@ -13,7 +13,7 @@ const NavigationBar: React.FC = () =>{
       { title: 'お気に入りの映画', url: '/favorites', IconComponent: MdLibraryBooks },
       { title: 'レビューした映画', url: '/reviews', IconComponent: MdCreditCard },
       { title: 'アカウント登録', url: '/register', IconComponent: MdSettings },
-      { title: 'リンク（with react-router）', url: '/some_link', IconComponent: MdRouter },
+      { title: '映画をタイトルで検索', url: '/search', IconComponent: MdSearch},
     ];
     return links.map(link => ({
       ...link,
@@ -22,7 +22,7 @@ const NavigationBar: React.FC = () =>{
   };
 
   return (
-    <GlobalNavi links={generateLinks()} />
+    <GlobalNavi links={generateLinks()} hideHelpForm disableGutters={true} />
   );
 }
 
