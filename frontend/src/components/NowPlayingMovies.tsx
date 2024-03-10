@@ -30,7 +30,7 @@ const imageStyle = {
 const CustomListCard: React.FC<Movie & { poster_path: string }> = ({ title, poster_path, id }) => (
   <div style={cardStyle}>
     <ListCard title={title} url={`movie/${id}`} ma={0.5}>
-        <img src={`https://image.tmdb.org/t/p/w300${poster_path}`} alt={title} style={imageStyle} />
+      <img src={`https://image.tmdb.org/t/p/w300${poster_path}`} alt={title} style={imageStyle} />
     </ListCard>
   </div>
 );
@@ -52,7 +52,7 @@ const NowPlayingMovies: React.FC = () => {
 
   return (
     <div>
-      <NavigationBar/>
+      <NavigationBar />
       <h2>上映中の映画</h2>
       <ul style={gridContainerStyle}>
         {movies.map(movie => (
