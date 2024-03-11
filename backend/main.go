@@ -23,7 +23,7 @@ func main() {
 	e.Use(middleware.Recover())
 	e.POST("/api/signup", signup)
 	e.POST("/api/login", login)
-	e.GET("/api/movies/popular", GetPopularMoviesHandler)
+	e.GET("/api/movies/upcoming", GetUpcomingMoviesHandler)
 	e.GET("/api/movies/now_playing", GetNowPlayingMoviesHandler)
 	e.GET("/api/movies/top_rated", GetTopRatedMoviesHandler)
 	e.GET("/api/movies/details", GetMovieDetailsHandler)
