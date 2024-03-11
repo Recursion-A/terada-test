@@ -2,16 +2,19 @@
 
 FROM node:20-alpine
 
+ARG BUILD_MODE
+
 WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install
+RUN npm ci
 
 COPY . .
 
-ENV HOST=0.0.0.0
-
-RUN npm run build
+RUN if [ "$BUILD_MODE" = "development" ]; \
+    then npm run build:dev; \
+    else npm run build:prod; \
+    fi
 
 CMD [ "npm", "run", "preview" ]

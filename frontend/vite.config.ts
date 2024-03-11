@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/api': 'http://backend:8080', // `localhost` から `backend` に変更
-    },
-  },
+      '/api': 'http://backend:8080' // `localhost` から `backend` に変更
+    }
+  }
 })
