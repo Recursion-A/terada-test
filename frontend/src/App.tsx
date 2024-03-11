@@ -8,21 +8,25 @@ import TopRatedMovies from './components/TopRatedMovies';
 import SearchMovies from './components/SearchMovies';
 import SignupForm from './components/SignupForm';
 import LoginForm from './components/LoginForm';
-
+import { AuthProvider } from './context/AuthContext';
+import LogoutForm from './components/LogoutForm';
 const App: React.FC = () => {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/upcoming" element={<UpcomingMovies />} />
-        <Route path="/movie/:id" element={<MovieDetails />} />
-        <Route path='/now_playing' element={<NowPlayingMovies />} />
-        <Route path='/top_rated' element={<TopRatedMovies />} />
-        <Route path='/search' element={<SearchMovies />} />
-        <Route path='/signup' element={<SignupForm />} />
-        <Route path='/login' element={<LoginForm />} />
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/upcoming" element={<UpcomingMovies />} />
+          <Route path="/movie/:id" element={<MovieDetails />} />
+          <Route path='/now_playing' element={<NowPlayingMovies />} />
+          <Route path='/top_rated' element={<TopRatedMovies />} />
+          <Route path='/search' element={<SearchMovies />} />
+          <Route path='/signup' element={<SignupForm />} />
+          <Route path='/login' element={<LoginForm />} />
+          <Route path='/loguot' element={<LogoutForm />} />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
 
