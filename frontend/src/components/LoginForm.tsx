@@ -55,6 +55,11 @@ const buttonStyle: React.CSSProperties = {
   marginTop: '40px'
 }
 
+const linkStyle = {
+  fontSize: '32px',
+  fontWeight: 'bold'
+}
+
 const LoginForm: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     username: '',
@@ -97,7 +102,7 @@ const LoginForm: React.FC = () => {
           <input
             type="text"
             name="username"
-            placeholder='username'
+            placeholder="username"
             value={formData.username}
             onChange={handleChange}
             style={inputStyle}
@@ -108,7 +113,7 @@ const LoginForm: React.FC = () => {
           <input
             type="password"
             name="password"
-            placeholder='password'
+            placeholder="password"
             value={formData.password}
             onChange={handleChange}
             style={inputStyle}
@@ -118,7 +123,9 @@ const LoginForm: React.FC = () => {
           Login
         </button>
       </form>
-      <Link to="/signup">ユーザー登録がまだの方はこちら</Link>
+      <Link style={linkStyle} to="/signup">
+        新規登録&#32;&#32;&#32;&gt;&gt;
+      </Link>
     </div>
   )
 }

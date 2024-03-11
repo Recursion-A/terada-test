@@ -49,6 +49,11 @@ const buttonStyle: React.CSSProperties = {
   marginTop: '40px'
 }
 
+const linkStyle = {
+  fontSize: '32px',
+  fontWeight: 'bold'
+}
+
 const SignupForm: React.FC = () => {
   const [formData, setFormData] = useState({
     username: '',
@@ -88,7 +93,7 @@ const SignupForm: React.FC = () => {
           <input
             type="text"
             name="username"
-            placeholder='username'
+            placeholder="username"
             value={formData.username}
             onChange={handleChange}
             style={inputStyle}
@@ -99,7 +104,7 @@ const SignupForm: React.FC = () => {
           <input
             type="email"
             name="email"
-            placeholder='aaa@gmail.com'
+            placeholder="aaa@gmail.com"
             value={formData.email}
             onChange={handleChange}
             style={inputStyle}
@@ -110,7 +115,7 @@ const SignupForm: React.FC = () => {
           <input
             type="password"
             name="password"
-            placeholder='password'
+            placeholder="password"
             value={formData.password}
             onChange={handleChange}
             style={inputStyle}
@@ -120,7 +125,9 @@ const SignupForm: React.FC = () => {
           Sign Up
         </button>
       </form>
-      <Link to="/login">ログイン</Link>
+      <Link style={linkStyle} to="/login">
+        ログイン&#32;&#32;&#32;&gt;&gt;
+      </Link>
     </div>
   )
 }
