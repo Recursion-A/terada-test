@@ -1,6 +1,8 @@
 package main
 
 import (
+	"database/sql"
+	"fmt"
 	"os"
 
 	"github.com/labstack/echo/v4"
@@ -8,11 +10,19 @@ import (
 )
 
 func main() {
+	var err error
+	db, err = sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(mysql_container:3306)/%s", dbUser, dbPassword, dbName))
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+
 	e := echo.New()
 
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
-
+	e.POST("/api/signup", signup)
+	e.POST("/api/login", login)
 	e.GET("/api/movies/upcoming", GetUpcomingMoviesHandler)
 	e.GET("/api/movies/now_playing", GetNowPlayingMoviesHandler)
 	e.GET("/api/movies/top_rated", GetTopRatedMoviesHandler)
