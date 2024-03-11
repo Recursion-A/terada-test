@@ -54,6 +54,7 @@ var jwtKey = []byte(os.Getenv("JWT_SECRET_KEY"))
 
 // JWTクレーム構造体
 type Claims struct {
+	UserID   int    `json:"userId"`
 	Username string `json:"username"`
 	jwt.StandardClaims
 }
@@ -66,9 +67,10 @@ func login(c echo.Context) error {
 	}
 
 	// DBからユーザー情報を取得
+	var userID int
 	var user User
 	var passwordHash string
-	err := db.QueryRow("SELECT username, password_hash FROM users WHERE username = ?", u.Username).Scan(&user.Username, &passwordHash)
+	err := db.QueryRow("SELECT id, username, password_hash FROM users WHERE username = ?", u.Username).Scan(&userID, &user.Username, &passwordHash)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return c.JSON(http.StatusUnauthorized, map[string]string{"error": "Invalid username or password", "providedPassword": u.Password, "storedPasswordHash": "N/A"})
@@ -82,12 +84,12 @@ func login(c echo.Context) error {
 	// JWTトークンの生成
 	expirationTime := time.Now().Add(5 * time.Minute)
 	claims := &Claims{
+		UserID:   userID,
 		Username: u.Username,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime.Unix(),
 		},
 	}
-
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	tokenString, err := token.SignedString(jwtKey)
 	if err != nil {
