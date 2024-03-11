@@ -1,6 +1,12 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
+const formHeadStyle: React.CSSProperties = {
+  textAlign: 'center',
+  borderBottom: '2px solid black',
+  paddingBottom: '16px'
+}
+
 const formWrapStyle: React.CSSProperties = {
   padding: '16px 32px',
   position: 'absolute',
@@ -50,8 +56,10 @@ const buttonStyle: React.CSSProperties = {
 }
 
 const linkStyle = {
+  display: 'inline-block',
   fontSize: '32px',
-  fontWeight: 'bold'
+  fontWeight: 'bold',
+  marginTop: '16px'
 }
 
 const SignupForm: React.FC = () => {
@@ -87,6 +95,7 @@ const SignupForm: React.FC = () => {
 
   return (
     <div style={formWrapStyle}>
+      <h1 style={formHeadStyle}>新規登録</h1>
       <form style={formStyle} onSubmit={handleSubmit}>
         <div style={formItemStyle}>
           <label style={labelStyle}>Username:</label>

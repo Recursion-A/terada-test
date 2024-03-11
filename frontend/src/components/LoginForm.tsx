@@ -7,6 +7,12 @@ interface FormData {
   password: string
 }
 
+const formHeadStyle: React.CSSProperties = {
+  textAlign: 'center',
+  borderBottom: '2px solid black',
+  paddingBottom: '16px'
+}
+
 const formWrapStyle: React.CSSProperties = {
   padding: '16px 32px',
   position: 'absolute',
@@ -56,8 +62,10 @@ const buttonStyle: React.CSSProperties = {
 }
 
 const linkStyle = {
+  display: 'inline-block',
   fontSize: '32px',
-  fontWeight: 'bold'
+  fontWeight: 'bold',
+  marginTop: '16px'
 }
 
 const LoginForm: React.FC = () => {
@@ -96,6 +104,7 @@ const LoginForm: React.FC = () => {
 
   return (
     <div style={formWrapStyle}>
+      <h1 style={formHeadStyle}>ログイン</h1>
       <form style={formStyle} onSubmit={handleSubmit}>
         <div style={formItemStyle}>
           <label style={labelStyle}>Username:</label>
