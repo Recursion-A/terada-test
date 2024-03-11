@@ -1,57 +1,144 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+
+const formHeadStyle: React.CSSProperties = {
+  textAlign: 'center',
+  borderBottom: '2px solid black',
+  paddingBottom: '16px'
+}
+
+const formWrapStyle: React.CSSProperties = {
+  padding: '16px 32px',
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)'
+}
+
+const formStyle: React.CSSProperties = {
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'start',
+  flexDirection: 'column',
+  gap: '24px'
+}
+
+const formItemStyle = {
+  width: '100%'
+}
+
+const labelStyle = {
+  fontSize: '48px'
+}
+
+const inputStyle = {
+  background: '#fafafa',
+  border: 'none',
+  borderBottom: '2px solid #e9e9e9',
+  color: '#666',
+  fontFamily: 'Open Sans, sans-serif',
+  fontSize: '32px',
+  transition: 'border-color 0.3s',
+  width: '100%',
+  heigh: '48px',
+  padding: '8px'
+}
+
+const buttonStyle: React.CSSProperties = {
+  background: 'black',
+  border: 'none',
+  color: 'white',
+  fontSize: '32px',
+  cursor: 'pointer',
+  height: '80px',
+  width: '100%',
+  marginTop: '40px'
+}
+
+const linkStyle = {
+  display: 'inline-block',
+  fontSize: '32px',
+  fontWeight: 'bold',
+  marginTop: '16px'
+}
 
 const SignupForm: React.FC = () => {
-    const [formData, setFormData] = useState({
-        username: '',
-        email: '',
-        password: '',
-    });
-    const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    password: ''
+  })
+  const navigate = useNavigate()
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value })
+  }
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        try {
-            const response = await fetch('/api/signup', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            });
-            if (!response.ok) {
-                throw new Error('Signup failed');
-            }
-            navigate('/login');
-        } catch (error) {
-            console.error('Signup error', error);
-        }
-    };
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    try {
+      const response = await fetch('/api/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      })
+      if (!response.ok) {
+        throw new Error('Signup failed')
+      }
+      navigate('/login')
+    } catch (error) {
+      console.error('Signup error', error)
+    }
+  }
 
-    return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Username:</label>
-                    <input type="text" name="username" value={formData.username} onChange={handleChange} />
-                </div>
-                <div>
-                    <label>Email:</label>
-                    <input type="email" name="email" value={formData.email} onChange={handleChange} />
-                </div>
-                <div>
-                    <label>Password:</label>
-                    <input type="password" name="password" value={formData.password} onChange={handleChange} />
-                </div>
-                <button type="submit">Sign Up</button>
-            </form>
-            <Link to="/login">ログイン</Link>
+  return (
+    <div style={formWrapStyle}>
+      <h1 style={formHeadStyle}>新規登録</h1>
+      <form style={formStyle} onSubmit={handleSubmit}>
+        <div style={formItemStyle}>
+          <label style={labelStyle}>Username:</label>
+          <input
+            type="text"
+            name="username"
+            placeholder="username"
+            value={formData.username}
+            onChange={handleChange}
+            style={inputStyle}
+          />
         </div>
-    );
-};
+        <div style={formItemStyle}>
+          <label style={labelStyle}>Email:</label>
+          <input
+            type="email"
+            name="email"
+            placeholder="aaa@gmail.com"
+            value={formData.email}
+            onChange={handleChange}
+            style={inputStyle}
+          />
+        </div>
+        <div style={formItemStyle}>
+          <label style={labelStyle}>Password:</label>
+          <input
+            type="password"
+            name="password"
+            placeholder="password"
+            value={formData.password}
+            onChange={handleChange}
+            style={inputStyle}
+          />
+        </div>
+        <button type="submit" style={buttonStyle}>
+          Sign Up
+        </button>
+      </form>
+      <Link style={linkStyle} to="/login">
+        ログイン&#32;&#32;&#32;&gt;&gt;
+      </Link>
+    </div>
+  )
+}
 
-export default SignupForm;
+export default SignupForm
