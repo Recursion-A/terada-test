@@ -23,7 +23,7 @@ const App: React.FC = () => {
           <Route path='/search' element={<SearchMovies />} />
           <Route path='/signup' element={<SignupForm />} />
           <Route path='/login' element={<LoginForm />} />
-          <Route path='/loguot' element={<LogoutForm />} />
+          <Route path='/logout' element={<LogoutForm />} />
         </Routes>
       </Router>
     </AuthProvider>
