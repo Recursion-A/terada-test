@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import config from '../config'
 
 interface Movie {
   id: number
@@ -82,7 +83,7 @@ function MovieDetails() {
 
   useEffect(() => {
     if (!id) return
-    fetch(`/api/movies/details?id=${id}`)
+    fetch(`${config.apiUrl}/movies/details?id=${id}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok')

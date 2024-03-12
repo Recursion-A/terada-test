@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { ListCard } from '@freee_jp/vibes'
 import NavigationBar from './NavigationBar'
+import config from '../config'
 
 type Movie = {
   id: number
@@ -59,8 +60,8 @@ const Home: React.FC = () => {
   }
 
   useEffect(() => {
-    fetchMovies('/api/movies/upcoming', setUpcomingMovies)
-    fetchMovies('/api/movies/top_rated', setTopRatedMovies)
+    fetchMovies(`${config.apiUrl}/movies/upcoming`, setUpcomingMovies)
+    fetchMovies(`${config.apiUrl}/movies/top_rated`, setTopRatedMovies)
   }, [])
 
   return (

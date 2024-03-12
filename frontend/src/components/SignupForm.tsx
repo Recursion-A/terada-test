@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import config from '../config'
+
 
 const formHeadStyle: React.CSSProperties = {
   textAlign: 'center',
@@ -77,7 +79,7 @@ const SignupForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     try {
-      const response = await fetch('/api/signup', {
+      const response = await fetch(`${config.apiUrl}/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

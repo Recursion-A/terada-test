@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import config from '../config'
+
 
 interface FormData {
   username: string
   password: string
+
 }
 
 const formHeadStyle: React.CSSProperties = {
@@ -83,7 +86,8 @@ const LoginForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     try {
-      const response = await fetch('/api/login', {
+
+      const response = await fetch(`${config.apiUrl}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

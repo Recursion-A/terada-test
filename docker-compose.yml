@@ -4,6 +4,8 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      args:
+        BUILD_MODE: ${BUILD_MODE:-production}
     container_name: frontend
     tty: true
     ports:
@@ -11,8 +13,6 @@ services:
     volumes:
       - ./frontend:/app
       - /app/node_modules
-    environment:
-      - HOST=0.0.0.0
 
   backend:
     build:
@@ -24,7 +24,7 @@ services:
       - 8080:8080
     env_file:
       - ./.env
-      
+
   db:
     image: mysql
     platform: linux/amd64
