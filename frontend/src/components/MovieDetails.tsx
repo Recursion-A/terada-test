@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import config from '../config'
 import NavigationBar from './NavigationBar'
+import FavoriteButton from './FavoriteButton'
 
 interface Movie {
   id: number
@@ -116,6 +117,7 @@ function MovieDetails() {
             <p style={contentText}>{movie.overview}</p>
           </div>
         </div>
+          {id && <FavoriteButton movieId={Number(id)} />}
       </div>
     </div>
   )
