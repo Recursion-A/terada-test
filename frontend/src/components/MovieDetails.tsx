@@ -130,7 +130,7 @@ function MovieDetails() {
           <button style={buttonStyle} onClick={() => navigate(-1)}>
             戻る
           </button>
-          {id && <FavoriteButton movieId={Number(id)} />}
+          {id && <FavoriteButton movieId={Number(id)} movieTitle={movie.title} posterPath={`https://image.tmdb.org/t/p/w300${movie.poster_path}`} />}
         </div>
       </div>
     </div>
