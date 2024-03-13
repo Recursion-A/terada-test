@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Pager, ListCard } from '@freee_jp/vibes'
 import NavigationBar from './NavigationBar'
 import config from '../config'
@@ -32,17 +33,25 @@ const CustomListCard: React.FC<Movie & { poster_path: string }> = ({
   title,
   poster_path,
   id
-}) => (
-  <div style={cardStyle}>
-    <ListCard title={title} url={`movie/${id}`} ma={0.5}>
-      <img
-        src={`https://image.tmdb.org/t/p/w300${poster_path}`}
-        alt={title}
-        style={imageStyle}
-      />
-    </ListCard>
-  </div>
-)
+}) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/movie/${id}`, { state: { pageType: "近日公開の映画" } });
+  };
+
+  return (
+    <div style={cardStyle} onClick={handleClick}>
+      <ListCard title={title} ma={0.5}>
+        <img
+          src={`https://image.tmdb.org/t/p/w300${poster_path}`}
+          alt={title}
+          style={imageStyle}
+        />
+      </ListCard>
+    </div>
+  );
+};
 
 const UpcomingMovies: React.FC = () => {
   const [movies, setMovies] = useState<Movie[]>([])
@@ -62,7 +71,7 @@ const UpcomingMovies: React.FC = () => {
   return (
     <div>
       <NavigationBar />
-      <h2>上映予定の映画</h2>
+      <h2>近日公開の映画</h2>
       <ul style={gridContainerStyle}>
         {movies.map((movie) => (
           <li key={movie.id} style={{ marginBottom: '20px' }}>

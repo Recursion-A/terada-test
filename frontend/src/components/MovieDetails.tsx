@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import config from '../config'
+import NavigationBar from './NavigationBar'
 
 interface Movie {
   id: number
@@ -75,11 +76,24 @@ const buttonStyle = {
   fontSize: '24px'
 }
 
+// const navigationBarStyle = {
+//   position: 'absolute',
+//   top: '0',
+//   left: '50%',
+//   transform: 'translateX(-50%)',
+//   width: '100%'
+// }
+
 function MovieDetails() {
   const { id } = useParams<{ id: string }>()
   const [movie, setMovie] = useState<Movie | null>(null)
 
   const navigate = useNavigate()
+
+  const location = useLocation()
+  const pageType = location.state.pageType
+
+  console.log(pageType)
 
   useEffect(() => {
     if (!id) return
@@ -97,38 +111,41 @@ function MovieDetails() {
   if (!movie) return <div>Loading...</div>
 
   return (
-    <div style={containerStyle}>
-      <div>
-        <h1 style={titleStyle}>{movie.title}</h1>
-        <img
-          src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
-          alt={movie.title}
-          style={imageStyle}
-        />
-      </div>
-      <div style={rightContentsStyle}>
-        <div style={infoStyle}>
-          <div style={overviewStyle}>
-            <h2>公開日</h2>
-            <p>{movie.release_date}</p>
-          </div>
-          <div style={overviewStyle}>
-            <h2>時間</h2>
-            <p>{movie.runtime}分</p>
-          </div>
-          <div style={overviewStyle}>
-            <h2>キャッチフレーズ</h2>
-            <p>{movie.tagline}</p>
-          </div>
-          <div style={overviewStyle}>
-            <h2>概要</h2>
-            <p>{movie.overview}</p>
-          </div>
+    <div>
+      <NavigationBar />
+      <div style={containerStyle}>
+        <div>
+          <h1 style={titleStyle}>{movie.title}</h1>
+          <img
+            src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
+            alt={movie.title}
+            style={imageStyle}
+          />
         </div>
-        <div style={buttonContainerStyle}>
-          <button style={buttonStyle} onClick={() => navigate(-1)}>
-            戻る
-          </button>
+        <div style={rightContentsStyle}>
+          <div style={infoStyle}>
+            <div style={overviewStyle}>
+              <h2>公開日</h2>
+              <p>{movie.release_date}</p>
+            </div>
+            <div style={overviewStyle}>
+              <h2>時間</h2>
+              <p>{movie.runtime}分</p>
+            </div>
+            <div style={overviewStyle}>
+              <h2>キャッチフレーズ</h2>
+              <p>{movie.tagline}</p>
+            </div>
+            <div style={overviewStyle}>
+              <h2>概要</h2>
+              <p>{movie.overview}</p>
+            </div>
+          </div>
+          <div style={buttonContainerStyle}>
+            <button style={buttonStyle} onClick={() => navigate(-1)}>
+              戻る
+            </button>
+          </div>
         </div>
       </div>
     </div>
