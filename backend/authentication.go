@@ -2,8 +2,10 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/golang-jwt/jwt"
@@ -100,4 +102,32 @@ func login(c echo.Context) error {
 	return c.JSON(http.StatusOK, map[string]string{
 		"token": tokenString,
 	})
+}
+
+// JWTからユーザーIDを取得するヘルパー関数
+func getUserIdFromToken(c echo.Context) (int, error) {
+	tokenString := c.Request().Header.Get("Authorization")
+	if tokenString == "" {
+		return 0, fmt.Errorf("authorization header is missing")
+	}
+
+	// Bearerトークンから実際のトークン文字列を取得
+	tokenString = strings.TrimPrefix(tokenString, "Bearer ")
+
+	// トークンの解析と検証
+	token, err := jwt.ParseWithClaims(tokenString, &Claims{}, func(token *jwt.Token) (interface{}, error) {
+		// ここで署名の検証に使う秘密鍵を返します。
+		return jwtKey, nil
+	})
+	if err != nil {
+		return 0, err
+	}
+
+	// トークンのClaims部分を独自のClaims型として取得
+	claims, ok := token.Claims.(*Claims)
+	if !ok || !token.Valid {
+		return 0, fmt.Errorf("token is invalid")
+	}
+
+	return claims.UserID, nil
 }

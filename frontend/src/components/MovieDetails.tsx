@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import config from '../config'
+import FavoriteButton from './FavoriteButton'
 
 interface Movie {
   id: number
@@ -129,6 +130,7 @@ function MovieDetails() {
           <button style={buttonStyle} onClick={() => navigate(-1)}>
             戻る
           </button>
+          {id && <FavoriteButton movieId={Number(id)} />}
         </div>
       </div>
     </div>
