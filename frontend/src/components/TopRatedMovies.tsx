@@ -37,7 +37,7 @@ const CustomListCard: React.FC<Movie & { poster_path: string }> = ({
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/movie/${id}`, { state: { pageType: "評価高い映画" } });
+    navigate(`/movie/${id}`, { state: { pageType: "評価の高い映画" } });
   };
 
   return (
