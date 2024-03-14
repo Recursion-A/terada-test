@@ -1,8 +1,10 @@
 import { useState } from "react";
 interface FavoriteButtonProps {
     movieId: number;
+    movieTitle: string;
+    posterPath: string;
 }
-const FavoriteButton: React.FC<FavoriteButtonProps> = ({ movieId }) => {
+const FavoriteButton: React.FC<FavoriteButtonProps> = ({ movieId, movieTitle, posterPath }) => {
     const [isFavorite, setIsFavorite] = useState(false);
 
     const handleAddFavorite = async () => {
@@ -11,10 +13,10 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({ movieId }) => {
             const response = await fetch('/api/favorites/add', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json; charset=utf-8',
                     'Authorization': `Bearer ${token}`, // トークンをヘッダーにセット
                 },
-                body: JSON.stringify({ movie_id: movieId }),
+                body: JSON.stringify({ movie_id: movieId, title: movieTitle, image_url: posterPath }),
             });
             if (response.ok) {
                 setIsFavorite(true);
@@ -33,10 +35,10 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({ movieId }) => {
             const response = await fetch('/api/favorites/remove', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json; charset=utf-8',
                     'Authorization': `Bearer ${token}`,
                 },
-                body: JSON.stringify({ movie_id: movieId }),
+                body: JSON.stringify({ movie_id: movieId, title: movieTitle, image_url: posterPath }),
             });
             if (response.ok) {
                 setIsFavorite(false);
