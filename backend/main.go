@@ -1,55 +1,57 @@
 package main
 
 import (
-    "database/sql"
-    "fmt"
-    "os"
+	"database/sql"
+	"fmt"
+	"os"
 
-    "github.com/labstack/echo/v4"
-    "github.com/labstack/echo/v4/middleware"
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func main() {
-    var err error
-    db, err = sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(mysql_container:3306)/%s", dbUser, dbPassword, dbName))
-    if err != nil {
-        panic(err)
-    }
-    defer db.Close()
+	var err error
 
-    e := echo.New()
+	db, err = sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(mysql_container:3306)/%s?charset=utf8mb4", dbUser, dbPassword, dbName))
 
-    // Middleware
-    e.Use(middleware.Logger())
-    e.Use(middleware.Recover())
-    e.Use(middleware.CORS())
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
 
-    // Public routes
-    e.POST("/api/signup", signup)
-    e.POST("/api/login", login)
-    e.GET("/api/movies/upcoming", GetUpcomingMoviesHandler)
-    e.GET("/api/movies/now_playing", GetNowPlayingMoviesHandler)
-    e.GET("/api/movies/top_rated", GetTopRatedMoviesHandler)
-    e.GET("/api/movies/details", GetMovieDetailsHandler)
-    e.GET("/api/movies/search", GetMovieSearchHandler)
+	e := echo.New()
 
-    // JWT Middleware setup for restricted routes
-    jwtMiddleware := middleware.JWTWithConfig(middleware.JWTConfig{
-        SigningKey:  []byte(os.Getenv("JWT_SECRET_KEY")),
-        TokenLookup: "header:Authorization",
-        AuthScheme:  "Bearer",
-    })
+	// Middleware
+	e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
+	e.Use(middleware.CORS())
 
-    // Restricted routes with JWT Middleware
-    r := e.Group("/api/favorites")
-    r.Use(jwtMiddleware)
-    r.POST("/add", addFavorite)
-    r.POST("/remove", removeFavorite)
+	// Public routes
+	e.POST("/api/signup", signup)
+	e.POST("/api/login", login)
+	e.GET("/api/movies/upcoming", GetUpcomingMoviesHandler)
+	e.GET("/api/movies/now_playing", GetNowPlayingMoviesHandler)
+	e.GET("/api/movies/top_rated", GetTopRatedMoviesHandler)
+	e.GET("/api/movies/details", GetMovieDetailsHandler)
+	e.GET("/api/movies/search", GetMovieSearchHandler)
+    e.GET("/api/favorites", GetFavoriteMovies)
 
-    httpPort := os.Getenv("PORT")
-    if httpPort == "" {
-        httpPort = "8080"
-    }
+	// JWT Middleware setup for restricted routes
+	jwtMiddleware := middleware.JWTWithConfig(middleware.JWTConfig{
+		SigningKey:  []byte(os.Getenv("JWT_SECRET_KEY")),
+		TokenLookup: "header:Authorization",
+		AuthScheme:  "Bearer",
+	})
 
-    e.Logger.Fatal(e.Start(":" + httpPort))
+	// Restricted routes with JWT Middleware
+	r := e.Group("/api/favorites")
+	r.Use(jwtMiddleware)
+	r.POST("/add", addFavorite)
+	r.POST("/remove", removeFavorite)
+
+	httpPort := os.Getenv("PORT")
+	if httpPort == "" {
+		httpPort = "8080"
+	}
+	e.Logger.Fatal(e.Start(":" + httpPort))
 }

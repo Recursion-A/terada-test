@@ -17,10 +17,10 @@ import (
 
 // DB接続情報
 // 要env行き
-const (
-	dbUser     = "root"
-	dbPassword = "root"
-	dbName     = "react-go-app"
+var (
+	dbUser     = os.Getenv("DB_USER")
+	dbPassword = os.Getenv("DB_PASSWORD")
+	dbName     = os.Getenv("DB_NAME")
 )
 
 var db *sql.DB

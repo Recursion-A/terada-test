@@ -29,7 +29,7 @@ const NavigationBar: React.FC = () => {
     },
     {
       title: 'お気に入りの映画',
-      url: '/favorites',
+      url: '/favorite_movies',
       IconComponent: MdLibraryBooks
     },
     { title: 'レビューした映画', url: '/reviews', IconComponent: MdCreditCard },
