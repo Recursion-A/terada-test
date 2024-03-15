@@ -117,7 +117,13 @@ function MovieDetails() {
             <p style={contentText}>{movie.overview}</p>
           </div>
         </div>
-          {id && <FavoriteButton movieId={Number(id)} />}
+        {id && (
+          <FavoriteButton
+            movieId={Number(id)}
+            movieTitle={movie.title}
+            posterPath={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
+          />
+        )}
       </div>
     </div>
   )
