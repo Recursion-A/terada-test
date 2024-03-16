@@ -27,7 +27,8 @@ body {
   display: flex;
   place-items: center;
   min-width: 320px;
-  min-height: 100vh;
+  /* 以下のスタイルを消すとナビゲーションバーが常に上に来る */
+  /* min-height: 100vh; */
 }
 
 h1 {

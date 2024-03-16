@@ -27,9 +27,17 @@ type ReviewDetail = {
   movie_title: string
   image_url: string
 }
-        
+
 const containerStyle = {
   width: '100vw'
+}
+
+const titleStyle: React.CSSProperties = {
+  fontSize: '64px',
+  borderBottom: '2px solid black',
+  paddingBottom: '16px',
+  fontWeight: 'bold',
+  margin: '40px 0'
 }
 
 const headingStyle: React.CSSProperties = {
@@ -52,20 +60,26 @@ const buttonResetStyle = {
   fontWeight: 'bold'
 }
 
-const titleStyle: React.CSSProperties = {
-  fontSize: '64px',
-  borderBottom: '2px solid black',
-  paddingBottom: '16px',
-  fontWeight: 'bold',
-  margin: '40px 0'
+const reviewButtonStyle: React.CSSProperties = {
+  position: 'absolute',
+  top: '0',
+  right: '10%'
 }
 
-const contentsStyle = {
+const contentsStyle: React.CSSProperties = {
   display: 'flex',
   justifyContent: 'start',
   alignItems: 'start',
   gap: '120px',
-  marginLeft: '40px'
+  width: '80%',
+  margin: '0 auto',
+  position: 'relative'
+}
+
+const descriptionStyle: React.CSSProperties = {
+  fontSize: '32px',
+  overflowY: 'scroll',
+  maxHeight: '240px'
 }
 
 const imageStyle: React.CSSProperties = {
@@ -88,21 +102,46 @@ const reviewSectionStyle = {
   marginTop: '20px'
 }
 
-const reviewTitleStyle = {
-  fontSize: '24px',
-  marginBottom: '15px'
+const reviewTitleStyle: React.CSSProperties = {
+  fontSize: '64px',
+  borderBottom: '2px solid black',
+  paddingBottom: '16px',
+  fontWeight: 'bold',
+  margin: '0 0 40px 40px',
+  display: 'inline-block',
 }
 
-const reviewItemStyle = {
-  borderBottom: '1px solid #eee',
-  paddingBottom: '10px',
-  marginBottom: '10px'
+const reviewContainerStyle: React.CSSProperties = {
+  width: '1320px',
+  margin: '0 auto',
+  display: 'flex',
+  justifyContent: 'start',
+  alignItems: 'center',
+  flexWrap: 'wrap',
+  gap: '40px'
 }
 
-const discriptionStyle: React.CSSProperties = {
-  fontSize: '32px',
+const reviewBoxStyle = {
+  border: '2px solid black',
+  width: '400px',
+  borderRadius: '20px',
+  padding: '4px'
+}
+
+const reviewRatingStyle = {
+  fontSize: '40px',
+  fontWeight: 'bold'
+}
+
+const reviewTextWrapStyle: React.CSSProperties = {
+  height: '120px',
+  width: '80%',
   overflowY: 'scroll',
-  maxHeight: '240px'
+  margin: '0 auto'
+}
+
+const reviewTextStyle: React.CSSProperties = {
+  fontSize: '24px',
 }
 
 function MovieDetails() {
@@ -136,7 +175,7 @@ function MovieDetails() {
           setReviews(data)
         } else {
           console.error('Received data is not an array:', data)
-          setReviews([]);
+          setReviews([])
         }
       } catch (error) {
         console.error('Error fetching reviews:', error)
@@ -188,47 +227,15 @@ function MovieDetails() {
           </div>
           <div>
             <h2 style={contentTitle}>概要</h2>
-            <p style={discriptionStyle}>{movie.overview}</p>
+            <p style={descriptionStyle}>{movie.overview}</p>
           </div>
         </div>
-                  <button
-            onClick={() => navigate(`/movie/${movie.id}/review`)}
-          >
-            レビュー
-          </button>
-              <div style={reviewSectionStyle}>
-        <h2 style={reviewTitleStyle}>レビュー</h2>
-        <div>
-          {reviews.length > 0 ? (
-            reviews.map((review: ReviewDetail) => (
-              <div key={review.review.id} style={reviewItemStyle}>
-                <div>Rating: {review.review.rating}</div>
-                <div>{review.review.text}</div>
-              </div>
-            ))
-          ) : (
-            <p>レビューはまだありません。</p>
-          )}
-        </div>
-                  <button
-            onClick={() => navigate(`/movie/${movie.id}/review`)}
-          >
-            レビュー
-          </button>
-              <div style={reviewSectionStyle}>
-        <h2 style={reviewTitleStyle}>レビュー</h2>
-        <div>
-          {reviews.length > 0 ? (
-            reviews.map((review: ReviewDetail) => (
-              <div key={review.review.id} style={reviewItemStyle}>
-                <div>Rating: {review.review.rating}</div>
-                <div>{review.review.text}</div>
-              </div>
-            ))
-          ) : (
-            <p>レビューはまだありません。</p>
-          )}
-        </div>
+        <button
+          style={reviewButtonStyle}
+          onClick={() => navigate(`/movie/${movie.id}/review`)}
+        >
+          レビューを書く
+        </button>
         {id && (
           <FavoriteButton
             movieId={Number(id)}
@@ -237,8 +244,27 @@ function MovieDetails() {
           />
         )}
       </div>
-    </div>
-    </div>
+      <div style={reviewSectionStyle}>
+        <h2 style={reviewTitleStyle}>レビュー</h2>
+        <div style={reviewContainerStyle}>
+          {reviews.length > 0 ? (
+            reviews.map((review: ReviewDetail) => (
+              <div key={review.review.id} style={reviewBoxStyle}>
+                <div>
+                  <p style={reviewRatingStyle}>
+                    Rating: {review.review.rating}/5
+                  </p>
+                </div>
+                <div style={reviewTextWrapStyle}>
+                  <p style={reviewTextStyle}>{review.review.text}</p>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p>レビューはまだありません。</p>
+          )}
+        </div>
+      </div>
     </div>
   )
 }
