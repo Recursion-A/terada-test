@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import config from '../config'
+import NavigationBar from './NavigationBar'
 import FavoriteButton from './FavoriteButton'
 
 interface Movie {
@@ -26,68 +27,48 @@ type ReviewDetail = {
   movie_title: string
   image_url: string
 }
-
-const containerStyle: React.CSSProperties = {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  gap: '24px',
-  width: '1280px',
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  border: 'solid 4px black',
-  borderRadius: '20px',
-  padding: '16px'
+        
+const containerStyle = {
+  width: '100vw'
 }
 
-const titleStyle = {
-  borderBottom: 'solid 2px black'
-}
-
-const imageStyle = {
-  border: 'solid 4px black'
-}
-
-const rightContentsStyle: React.CSSProperties = {
+const headingStyle: React.CSSProperties = {
   display: 'flex',
   justifyContent: 'center',
-  alignItems: 'center',
-  flexDirection: 'column'
-}
-
-const infoStyle: React.CSSProperties = {
-  display: 'flex',
   alignItems: 'start',
-  justifyContent: 'center',
-  flexWrap: 'wrap',
-  gap: '24px'
+  flexDirection: 'column',
+  marginLeft: '40px'
 }
 
-const overviewStyle: React.CSSProperties = {
-  marginTop: '24px',
-  width: '240px',
-  height: '120px',
-  border: 'solid 2px black',
-  padding: '4px 8px',
-  overflowY: 'scroll'
+const titleStyle: React.CSSProperties = {
+  fontSize: '64px',
+  borderBottom: '2px solid black',
+  paddingBottom: '16px',
+  fontWeight: 'bold'
 }
 
-const buttonContainerStyle = {
-  width: '120px',
-  height: '80px',
-  border: 'solid 4px black',
+const contentsStyle = {
   display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  marginTop: '40px'
+  justifyContent: 'start',
+  alignItems: 'start',
+  gap: '120px',
+  marginLeft: '40px'
 }
 
-const buttonStyle = {
-  width: '100%',
-  height: '100%',
-  fontSize: '24px'
+const imageStyle: React.CSSProperties = {
+  objectFit: 'contain'
+}
+
+const infoStyle = {
+  width: '600px'
+}
+
+const contentTitle = {
+  fontSize: '48px'
+}
+
+const contentText = {
+  fontSize: '32px'
 }
 
 const reviewSectionStyle = {
@@ -111,6 +92,7 @@ function MovieDetails() {
   const [reviews, setReviews] = useState<ReviewDetail[]>([])
 
   const navigate = useNavigate()
+  const location = useLocation()
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
@@ -149,57 +131,53 @@ function MovieDetails() {
     }
   }, [id])
 
+  const pageType = location.state.pageType
+
   if (!movie) return <div>Loading...</div>
 
   return (
     <div style={containerStyle}>
-      <div>
-        <h1 style={titleStyle}>{movie.title}</h1>
-        <img
-          src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
-          alt={movie.title}
-          style={imageStyle}
-        />
+      <NavigationBar />
+      <button onClick={() => navigate(-1)}>&lt;&lt;&#32;&#32;&#32;戻る</button>
+      <div style={headingStyle}>
+        <h2>{pageType}&#32;&#32;&#32;&gt;&gt;&#32;&#32;&#32;</h2>
+        <p style={titleStyle}>{movie.title}</p>
       </div>
-      <div style={rightContentsStyle}>
+      <div style={contentsStyle}>
+        <div>
+          <img
+            src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
+            alt={movie.title}
+            width={800}
+            height={1200}
+            style={imageStyle}
+          />
+        </div>
         <div style={infoStyle}>
-          <div style={overviewStyle}>
-            <h2>公開日</h2>
-            <p>{movie.release_date}</p>
+          <div>
+            <h2 style={contentTitle}>公開日</h2>
+            <p style={contentText}>{movie.release_date}</p>
           </div>
-          <div style={overviewStyle}>
-            <h2>時間</h2>
-            <p>{movie.runtime}分</p>
+          <div>
+            <h2 style={contentTitle}>時間</h2>
+            <p style={contentText}>{movie.runtime}分</p>
           </div>
-          <div style={overviewStyle}>
-            <h2>キャッチフレーズ</h2>
-            <p>{movie.tagline}</p>
+          <div>
+            <h2 style={contentTitle}>キャッチフレーズ</h2>
+            <p style={contentText}>{movie.tagline}</p>
           </div>
-          <div style={overviewStyle}>
-            <h2>概要</h2>
-            <p>{movie.overview}</p>
+          <div>
+            <h2 style={contentTitle}>概要</h2>
+            <p style={contentText}>{movie.overview}</p>
           </div>
         </div>
-        <div style={buttonContainerStyle}>
-          <button style={buttonStyle} onClick={() => navigate(-1)}>
-            戻る
-          </button>
-          <button
+                  <button
             style={buttonStyle}
             onClick={() => navigate(`/movie/${movie.id}/review`)}
           >
             レビュー
           </button>
-          {id && (
-            <FavoriteButton
-              movieId={Number(id)}
-              movieTitle={movie.title}
-              posterPath={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
-            />
-          )}
-        </div>
-      </div>
-      <div style={reviewSectionStyle}>
+              <div style={reviewSectionStyle}>
         <h2 style={reviewTitleStyle}>レビュー</h2>
         <div>
           {reviews.length > 0 ? (
@@ -213,6 +191,7 @@ function MovieDetails() {
             <p>レビューはまだありません。</p>
           )}
         </div>
+          {id && <FavoriteButton movieId={Number(id)} />}
       </div>
     </div>
   )
