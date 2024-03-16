@@ -1,11 +1,19 @@
-import React, { useEffect, useState } from 'react'
-import { Pager, ListCard } from '@freee_jp/vibes'
+import React, { useState, useEffect } from 'react'
 import NavigationBar from './NavigationBar'
+import { Pager, ListCard } from '@freee_jp/vibes'
 import config from '../config'
 
-type Movie = {
+type Review = {
+  id: number
+  user_id: number
   movie_id: number
-  title: string
+  rating: number
+  text: string
+}
+
+type ReviewDetail = {
+  review: Review
+  movie_title: string
   image_url: string
 }
 
@@ -28,35 +36,40 @@ const imageStyle = {
   marginRight: '20px'
 }
 
-const CustomListCard: React.FC<Movie & { image_url: string }> = ({
-  title,
-  image_url,
-  movie_id
+const CustomListCard: React.FC<ReviewDetail> = ({
+  review,
+  movie_title,
+  image_url
 }) => (
   <div style={cardStyle}>
-    <ListCard title={title} url={`movie/${movie_id}`} ma={0.5}>
-      <img src={image_url} alt={title} style={imageStyle} />
+    <ListCard title={movie_title} url={`movie/${review.movie_id}`} ma={0.5}>
+      <img
+        src={`https://image.tmdb.org/t/p/w300${image_url}`}
+        alt={movie_title}
+        style={imageStyle}
+      />
     </ListCard>
   </div>
 )
 
-const FavoriteMovies: React.FC = () => {
-  const [movies, setMovies] = useState<Movie[]>([])
+const ReviewMovies = () => {
+  const [reviewDetails, setReviewDetails] = useState<ReviewDetail[]>([])
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(0)
 
   useEffect(() => {
-    const token = localStorage.getItem('token') // JWTトークンをローカルストレージから取得
+    const token = localStorage.getItem('token')
     if (!token) return
 
-    fetch(`${config.apiUrl}/favorites`, {
+    fetch(`${config.apiUrl}/reviews`, {
       headers: {
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`
       }
     })
       .then((response) => response.json())
       .then((data) => {
-        setMovies(data || [])
+        setReviewDetails(data || [])
         setTotalPages(Math.ceil(data.length / 20))
       })
       .catch((error) => console.error('Error fetching data:', error))
@@ -67,12 +80,15 @@ const FavoriteMovies: React.FC = () => {
       <NavigationBar />
       <h2>お気に入り映画</h2>
       <ul style={gridContainerStyle}>
-        {movies.map((movie) => (
-          <li key={movie.movie_id} style={{ marginBottom: '20px' }}>
+        {reviewDetails.map((reviewDetail: ReviewDetail) => (
+          <li
+            key={reviewDetail.review.movie_id}
+            style={{ marginBottom: '20px' }}
+          >
             <CustomListCard
-              title={movie.title}
-              image_url={movie.image_url}
-              movie_id={movie.movie_id}
+              review={reviewDetail.review}
+              movie_title={reviewDetail.movie_title}
+              image_url={reviewDetail.image_url}
             />
           </li>
         ))}
@@ -89,4 +105,4 @@ const FavoriteMovies: React.FC = () => {
   )
 }
 
-export default FavoriteMovies
+export default ReviewMovies
