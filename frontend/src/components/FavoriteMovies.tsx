@@ -35,24 +35,21 @@ const CustomListCard: React.FC<Movie & { image_url: string }> = ({
 }) => (
   <div style={cardStyle}>
     <ListCard title={title} url={`movie/${movie_id}`} ma={0.5}>
-      <img
-        src={image_url}
-        alt={title}
-        style={imageStyle}
-      />
+      <img src={image_url} alt={title} style={imageStyle} />
     </ListCard>
   </div>
 )
 
 const FavoriteMovies: React.FC = () => {
   const [movies, setMovies] = useState<Movie[]>([])
+
   useEffect(() => {
-    const token = localStorage.getItem('token'); // JWTトークンをローカルストレージから取得
-    if (!token) return;
+    const token = localStorage.getItem('token') // JWTトークンをローカルストレージから取得
+    if (!token) return
 
     fetch(`${config.apiUrl}/favorites`, {
       headers: {
-        'Authorization': `Bearer ${token}`
+        Authorization: `Bearer ${token}`
       }
     })
       .then((response) => response.json())
