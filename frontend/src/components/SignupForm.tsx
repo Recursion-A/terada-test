@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import config from '../config'
 
-
 const formHeadStyle: React.CSSProperties = {
   textAlign: 'center',
   borderBottom: '2px solid black',

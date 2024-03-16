@@ -1,65 +1,79 @@
-import { useState } from "react";
+import { useState } from 'react'
+
 interface FavoriteButtonProps {
-    movieId: number;
-    movieTitle: string;
-    posterPath: string;
+  movieId: number
+  movieTitle: string
+  posterPath: string
 }
-const FavoriteButton: React.FC<FavoriteButtonProps> = ({ movieId, movieTitle, posterPath }) => {
-    const [isFavorite, setIsFavorite] = useState(false);
 
-    const handleAddFavorite = async () => {
-        const token = localStorage.getItem('token'); // JWTトークンをローカルストレージから取得
-        try {
-            const response = await fetch('/api/favorites/add', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json; charset=utf-8',
-                    'Authorization': `Bearer ${token}`, // トークンをヘッダーにセット
-                },
-                body: JSON.stringify({ movie_id: movieId, title: movieTitle, image_url: posterPath }),
-            });
-            if (response.ok) {
-                setIsFavorite(true);
-                alert('お気に入りに追加しました。');
-            } else {
-                alert('お気に入りの追加に失敗しました。');
-            }
-        } catch (error) {
-            console.error('Add favorite failed:', error);
-        }
-    };
+const FavoriteButton: React.FC<FavoriteButtonProps> = ({
+  movieId,
+  movieTitle,
+  posterPath
+}) => {
+  const [isFavorite, setIsFavorite] = useState(false)
 
-    const handleRemoveFavorite = async () => {
-        const token = localStorage.getItem('token');
-        try {
-            const response = await fetch('/api/favorites/remove', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json; charset=utf-8',
-                    'Authorization': `Bearer ${token}`,
-                },
-                body: JSON.stringify({ movie_id: movieId, title: movieTitle, image_url: posterPath }),
-            });
-            if (response.ok) {
-                setIsFavorite(false);
-                alert('お気に入りから削除しました。');
-            } else {
-                alert('お気に入りの削除に失敗しました。');
-            }
-        } catch (error) {
-            console.error('Remove favorite failed:', error);
-        }
-    };
+  const handleAddFavorite = async () => {
+    const token = localStorage.getItem('token') // JWTトークンをローカルストレージから取得
+    try {
+      const response = await fetch('/api/favorites/add', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          Authorization: `Bearer ${token}` // トークンをヘッダーにセット
+        },
+        body: JSON.stringify({
+          movie_id: movieId,
+          title: movieTitle,
+          image_url: posterPath
+        })
+      })
+      if (response.ok) {
+        setIsFavorite(true)
+        alert('お気に入りに追加しました。')
+      } else {
+        alert('お気に入りの追加に失敗しました。')
+      }
+    } catch (error) {
+      console.error('Add favorite failed:', error)
+    }
+  }
 
-    return (
-        <div>
-            {isFavorite ? (
-                <button onClick={handleRemoveFavorite}>お気に入りから削除</button>
-            ) : (
-                <button onClick={handleAddFavorite}>お気に入りに追加</button>
-            )}
-        </div>
-    );
-};
+  const handleRemoveFavorite = async () => {
+    const token = localStorage.getItem('token')
+    try {
+      const response = await fetch('/api/favorites/remove', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          movie_id: movieId,
+          title: movieTitle,
+          image_url: posterPath
+        })
+      })
+      if (response.ok) {
+        setIsFavorite(false)
+        alert('お気に入りから削除しました。')
+      } else {
+        alert('お気に入りの削除に失敗しました。')
+      }
+    } catch (error) {
+      console.error('Remove favorite failed:', error)
+    }
+  }
 
-export default FavoriteButton;
+  return (
+    <div>
+      {isFavorite ? (
+        <button onClick={handleRemoveFavorite}>お気に入りから削除</button>
+      ) : (
+        <button onClick={handleAddFavorite}>お気に入りに追加</button>
+      )}
+    </div>
+  )
+}
+
+export default FavoriteButton

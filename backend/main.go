@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/labstack/echo/v4"
@@ -10,17 +11,13 @@ import (
 )
 
 func main() {
-	var err error
-
-	db, err = sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(mysql_container:3306)/%s?charset=utf8mb4", dbUser, dbPassword, dbName))
-
+	db, err := connectDB()
 	if err != nil {
-		panic(err)
+		log.Printf("Failed to open database: %v", err)
 	}
 	defer db.Close()
 
 	e := echo.New()
-
 	// Middleware
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
@@ -34,7 +31,8 @@ func main() {
 	e.GET("/api/movies/top_rated", GetTopRatedMoviesHandler)
 	e.GET("/api/movies/details", GetMovieDetailsHandler)
 	e.GET("/api/movies/search", GetMovieSearchHandler)
-    e.GET("/api/favorites", GetFavoriteMovies)
+	e.GET("/api/favorites", GetFavoriteMovies)
+	e.GET("/api/reviews/movie", GetReviewsFromMovieId)
 
 	// JWT Middleware setup for restricted routes
 	jwtMiddleware := middleware.JWTWithConfig(middleware.JWTConfig{
@@ -49,9 +47,23 @@ func main() {
 	r.POST("/add", addFavorite)
 	r.POST("/remove", removeFavorite)
 
+	root := e.Group("/api/reviews")
+	root.Use(jwtMiddleware)
+	root.POST("/add", addReview)
+	root.GET("", getReviewsFromUserId)
+
 	httpPort := os.Getenv("PORT")
 	if httpPort == "" {
 		httpPort = "8080"
 	}
 	e.Logger.Fatal(e.Start(":" + httpPort))
+}
+
+func connectDB() (*sql.DB, error) {
+	var err error
+	db, err = sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(mysql_container:3306)/%s?charset=utf8mb4&parseTime=true", dbUser, dbPassword, dbName))
+	if err != nil {
+		return nil, err
+	}
+	return db, nil
 }
