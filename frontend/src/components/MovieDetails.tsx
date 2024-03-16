@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useParams, useNavigate, useLocation } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import config from '../config'
 import NavigationBar from './NavigationBar'
 import FavoriteButton from './FavoriteButton'
@@ -92,7 +92,7 @@ function MovieDetails() {
   const [reviews, setReviews] = useState<ReviewDetail[]>([])
 
   const navigate = useNavigate()
-  const location = useLocation()
+  // const location = useLocation()
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
@@ -131,7 +131,7 @@ function MovieDetails() {
     }
   }, [id])
 
-  const pageType = location.state.pageType
+  // const pageType = location.state.pageType
 
   if (!movie) return <div>Loading...</div>
 
@@ -140,7 +140,7 @@ function MovieDetails() {
       <NavigationBar />
       <button onClick={() => navigate(-1)}>&lt;&lt;&#32;&#32;&#32;戻る</button>
       <div style={headingStyle}>
-        <h2>{pageType}&#32;&#32;&#32;&gt;&gt;&#32;&#32;&#32;</h2>
+        {/* <h2>{pageType}&#32;&#32;&#32;&gt;&gt;&#32;&#32;&#32;</h2> */}
         <p style={titleStyle}>{movie.title}</p>
       </div>
       <div style={contentsStyle}>
@@ -171,7 +171,8 @@ function MovieDetails() {
             <p style={contentText}>{movie.overview}</p>
           </div>
         </div>
-                  <button
+        {id && <FavoriteButton movieId={Number(id)} movieTitle={movie.title} posterPath={`https://image.tmdb.org/t/p/w300${movie.poster_path}`} />
+          <button
             style={buttonStyle}
             onClick={() => navigate(`/movie/${movie.id}/review`)}
           >
