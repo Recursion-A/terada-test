@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Pager, ListCard } from '@freee_jp/vibes'
+import { ListCard } from '@freee_jp/vibes'
 import NavigationBar from './NavigationBar'
 import config from '../config'
 
@@ -46,8 +46,6 @@ const CustomListCard: React.FC<Movie & { image_url: string }> = ({
 
 const FavoriteMovies: React.FC = () => {
   const [movies, setMovies] = useState<Movie[]>([])
-  const [page, setPage] = useState(1)
-  const [totalPages, setTotalPages] = useState(0)
   useEffect(() => {
     const token = localStorage.getItem('token'); // JWTトークンをローカルストレージから取得
     if (!token) return;
@@ -60,7 +58,6 @@ const FavoriteMovies: React.FC = () => {
       .then((response) => response.json())
       .then((data) => {
         setMovies(data || [])
-        setTotalPages(Math.ceil(data.length / 20))
       })
       .catch((error) => console.error('Error fetching data:', error))
   }, [])
@@ -80,14 +77,6 @@ const FavoriteMovies: React.FC = () => {
           </li>
         ))}
       </ul>
-      <Pager
-        currentPage={page}
-        pageCount={totalPages}
-        pageRange={5}
-        sidePageRange={1}
-        onPageChange={setPage}
-        small={false}
-      />
     </div>
   )
 }
