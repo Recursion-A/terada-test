@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useParams, useNavigate, useLocation } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import config from '../config'
 import NavigationBar from './NavigationBar'
 import FavoriteButton from './FavoriteButton'
@@ -150,7 +150,7 @@ function MovieDetails() {
   const [reviews, setReviews] = useState<ReviewDetail[]>([])
 
   const navigate = useNavigate()
-  const location = useLocation()
+  // const location = useLocation()
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
@@ -189,7 +189,7 @@ function MovieDetails() {
     }
   }, [id])
 
-  const pageType = location.state.pageType
+  // const pageType = location.state.pageType
 
   if (!movie) return <div>Loading...</div>
 
