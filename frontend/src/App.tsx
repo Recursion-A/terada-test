@@ -11,6 +11,8 @@ import LoginForm from './components/LoginForm'
 import { AuthProvider } from './context/AuthContext'
 import LogoutForm from './components/LogoutForm'
 import FavoriteMovies from './components/FavoriteMovies'
+import ReviewForm from './components/ReviewForm'
+import ReviewMovies from './components/ReviewList'
 
 const App: React.FC = () => {
   return (
@@ -27,6 +29,8 @@ const App: React.FC = () => {
           <Route path="/login" element={<LoginForm />} />
           <Route path="/logout" element={<LogoutForm />} />
           <Route path="/favorite_movies" element={<FavoriteMovies />} />
+          <Route path="/reviews" element={<ReviewMovies />} />
+          <Route path="/movie/:id/review" element={<ReviewForm />} />
         </Routes>
       </Router>
     </AuthProvider>
