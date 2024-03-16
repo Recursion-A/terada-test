@@ -23,14 +23,27 @@ const headingStyle: React.CSSProperties = {
   justifyContent: 'center',
   alignItems: 'start',
   flexDirection: 'column',
+  marginTop: '24px',
   marginLeft: '40px'
+}
+
+const buttonResetStyle = {
+  padding: 0,
+  border: 'none',
+  outline: 'none',
+  font: 'inherit',
+  color: 'inherit',
+  background: 'none',
+  fontSize: '32px',
+  fontWeight: 'bold'
 }
 
 const titleStyle: React.CSSProperties = {
   fontSize: '64px',
   borderBottom: '2px solid black',
   paddingBottom: '16px',
-  fontWeight: 'bold'
+  fontWeight: 'bold',
+  margin: '40px 0'
 }
 
 const contentsStyle = {
@@ -55,6 +68,12 @@ const contentTitle = {
 
 const contentText = {
   fontSize: '32px'
+}
+
+const discriptionStyle: React.CSSProperties = {
+  fontSize: '32px',
+  overflowY: 'scroll',
+  maxHeight: '240px'
 }
 
 function MovieDetails() {
@@ -84,9 +103,10 @@ function MovieDetails() {
   return (
     <div style={containerStyle}>
       <NavigationBar />
-      <button onClick={() => navigate(-1)}>&lt;&lt;&#32;&#32;&#32;戻る</button>
       <div style={headingStyle}>
-        <h2>{pageType}&#32;&#32;&#32;&gt;&gt;&#32;&#32;&#32;</h2>
+        <button style={buttonResetStyle} onClick={() => navigate(-1)}>
+          &lt;&lt;&#32;&#32;&#32;&#32;&#32;&#32;{pageType}
+        </button>
         <p style={titleStyle}>{movie.title}</p>
       </div>
       <div style={contentsStyle}>
@@ -94,8 +114,8 @@ function MovieDetails() {
           <img
             src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
             alt={movie.title}
-            width={800}
-            height={1200}
+            width={600}
+            height={1000}
             style={imageStyle}
           />
         </div>
@@ -114,10 +134,16 @@ function MovieDetails() {
           </div>
           <div>
             <h2 style={contentTitle}>概要</h2>
-            <p style={contentText}>{movie.overview}</p>
+            <p style={discriptionStyle}>{movie.overview}</p>
           </div>
         </div>
-          {id && <FavoriteButton movieId={Number(id)} />}
+        {id && (
+          <FavoriteButton
+            movieId={Number(id)}
+            movieTitle={movie.title}
+            posterPath={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
+          />
+        )}
       </div>
     </div>
   )
