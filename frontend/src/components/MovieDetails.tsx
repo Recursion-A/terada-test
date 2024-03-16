@@ -27,9 +27,17 @@ type ReviewDetail = {
   movie_title: string
   image_url: string
 }
-        
+
 const containerStyle = {
   width: '100vw'
+}
+
+const titleStyle: React.CSSProperties = {
+  fontSize: '64px',
+  borderBottom: '2px solid black',
+  paddingBottom: '16px',
+  fontWeight: 'bold',
+  margin: '40px 0'
 }
 
 const headingStyle: React.CSSProperties = {
@@ -37,22 +45,41 @@ const headingStyle: React.CSSProperties = {
   justifyContent: 'center',
   alignItems: 'start',
   flexDirection: 'column',
+  marginTop: '24px',
   marginLeft: '40px'
 }
 
-const titleStyle: React.CSSProperties = {
-  fontSize: '64px',
-  borderBottom: '2px solid black',
-  paddingBottom: '16px',
+const buttonResetStyle = {
+  padding: 0,
+  border: 'none',
+  outline: 'none',
+  font: 'inherit',
+  color: 'inherit',
+  background: 'none',
+  fontSize: '32px',
   fontWeight: 'bold'
 }
 
-const contentsStyle = {
+const reviewButtonStyle: React.CSSProperties = {
+  position: 'absolute',
+  top: '0',
+  right: '10%'
+}
+
+const contentsStyle: React.CSSProperties = {
   display: 'flex',
   justifyContent: 'start',
   alignItems: 'start',
   gap: '120px',
-  marginLeft: '40px'
+  width: '80%',
+  margin: '0 auto',
+  position: 'relative'
+}
+
+const descriptionStyle: React.CSSProperties = {
+  fontSize: '32px',
+  overflowY: 'scroll',
+  maxHeight: '240px'
 }
 
 const imageStyle: React.CSSProperties = {
@@ -75,15 +102,46 @@ const reviewSectionStyle = {
   marginTop: '20px'
 }
 
-const reviewTitleStyle = {
-  fontSize: '24px',
-  marginBottom: '15px'
+const reviewTitleStyle: React.CSSProperties = {
+  fontSize: '64px',
+  borderBottom: '2px solid black',
+  paddingBottom: '16px',
+  fontWeight: 'bold',
+  margin: '0 0 40px 40px',
+  display: 'inline-block',
 }
 
-const reviewItemStyle = {
-  borderBottom: '1px solid #eee',
-  paddingBottom: '10px',
-  marginBottom: '10px'
+const reviewContainerStyle: React.CSSProperties = {
+  width: '1320px',
+  margin: '0 auto',
+  display: 'flex',
+  justifyContent: 'start',
+  alignItems: 'center',
+  flexWrap: 'wrap',
+  gap: '40px'
+}
+
+const reviewBoxStyle = {
+  border: '2px solid black',
+  width: '400px',
+  borderRadius: '20px',
+  padding: '4px'
+}
+
+const reviewRatingStyle = {
+  fontSize: '40px',
+  fontWeight: 'bold'
+}
+
+const reviewTextWrapStyle: React.CSSProperties = {
+  height: '120px',
+  width: '80%',
+  overflowY: 'scroll',
+  margin: '0 auto'
+}
+
+const reviewTextStyle: React.CSSProperties = {
+  fontSize: '24px',
 }
 
 function MovieDetails() {
@@ -117,7 +175,7 @@ function MovieDetails() {
           setReviews(data)
         } else {
           console.error('Received data is not an array:', data)
-          setReviews([]);
+          setReviews([])
         }
       } catch (error) {
         console.error('Error fetching reviews:', error)
@@ -138,9 +196,10 @@ function MovieDetails() {
   return (
     <div style={containerStyle}>
       <NavigationBar />
-      <button onClick={() => navigate(-1)}>&lt;&lt;&#32;&#32;&#32;戻る</button>
       <div style={headingStyle}>
-        {/* <h2>{pageType}&#32;&#32;&#32;&gt;&gt;&#32;&#32;&#32;</h2> */}
+        <button style={buttonResetStyle} onClick={() => navigate(-1)}>
+          &lt;&lt;&#32;&#32;&#32;&#32;&#32;&#32;{pageType}
+        </button>
         <p style={titleStyle}>{movie.title}</p>
       </div>
       <div style={contentsStyle}>
@@ -148,8 +207,8 @@ function MovieDetails() {
           <img
             src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
             alt={movie.title}
-            width={800}
-            height={1200}
+            width={600}
+            height={1000}
             style={imageStyle}
           />
         </div>
@@ -168,31 +227,43 @@ function MovieDetails() {
           </div>
           <div>
             <h2 style={contentTitle}>概要</h2>
-            <p style={contentText}>{movie.overview}</p>
+            <p style={descriptionStyle}>{movie.overview}</p>
           </div>
         </div>
-        {id && <FavoriteButton movieId={Number(id)} movieTitle={movie.title} posterPath={`https://image.tmdb.org/t/p/w300${movie.poster_path}`} />
-          <button
-            style={buttonStyle}
-            onClick={() => navigate(`/movie/${movie.id}/review`)}
-          >
-            レビュー
-          </button>
-              <div style={reviewSectionStyle}>
+        <button
+          style={reviewButtonStyle}
+          onClick={() => navigate(`/movie/${movie.id}/review`)}
+        >
+          レビューを書く
+        </button>
+        {id && (
+          <FavoriteButton
+            movieId={Number(id)}
+            movieTitle={movie.title}
+            posterPath={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
+          />
+        )}
+      </div>
+      <div style={reviewSectionStyle}>
         <h2 style={reviewTitleStyle}>レビュー</h2>
-        <div>
+        <div style={reviewContainerStyle}>
           {reviews.length > 0 ? (
             reviews.map((review: ReviewDetail) => (
-              <div key={review.review.id} style={reviewItemStyle}>
-                <div>Rating: {review.review.rating}</div>
-                <div>{review.review.text}</div>
+              <div key={review.review.id} style={reviewBoxStyle}>
+                <div>
+                  <p style={reviewRatingStyle}>
+                    Rating: {review.review.rating}/5
+                  </p>
+                </div>
+                <div style={reviewTextWrapStyle}>
+                  <p style={reviewTextStyle}>{review.review.text}</p>
+                </div>
               </div>
             ))
           ) : (
             <p>レビューはまだありません。</p>
           )}
         </div>
-          {id && <FavoriteButton movieId={Number(id)} />}
       </div>
     </div>
   )

@@ -6,6 +6,12 @@ interface FavoriteButtonProps {
   posterPath: string
 }
 
+const favoriteButtonStyle: React.CSSProperties = {
+  position: 'absolute',
+  top: '0',
+  right: '25%'
+}
+
 const FavoriteButton: React.FC<FavoriteButtonProps> = ({
   movieId,
   movieTitle,
@@ -68,9 +74,9 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
   return (
     <div>
       {isFavorite ? (
-        <button onClick={handleRemoveFavorite}>お気に入りから削除</button>
+        <button style={favoriteButtonStyle} onClick={handleRemoveFavorite}>お気に入りから削除</button>
       ) : (
-        <button onClick={handleAddFavorite}>お気に入りに追加</button>
+        <button style={favoriteButtonStyle} onClick={handleAddFavorite}>お気に入りに追加</button>
       )}
     </div>
   )

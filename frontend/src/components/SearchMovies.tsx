@@ -54,7 +54,7 @@ const SearchMovies: React.FC = () => {
     const fetchMovies = async () => {
       if (query) {
         const response = await fetch(
-          `${config}/movies/search?query=${encodeURIComponent(query)}&page=${page}`
+          `${config.apiUrl}/movies/search?query=${encodeURIComponent(query)}&page=${page}`
         )
         const data = await response.json()
         setMovies(data.results || [])
