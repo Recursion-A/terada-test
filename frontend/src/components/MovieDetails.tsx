@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import config from '../config'
 import NavigationBar from './NavigationBar'
 import FavoriteButton from './FavoriteButton'
@@ -108,7 +108,7 @@ const reviewTitleStyle: React.CSSProperties = {
   paddingBottom: '16px',
   fontWeight: 'bold',
   margin: '0 0 40px 40px',
-  display: 'inline-block',
+  display: 'inline-block'
 }
 
 const reviewContainerStyle: React.CSSProperties = {
@@ -141,7 +141,7 @@ const reviewTextWrapStyle: React.CSSProperties = {
 }
 
 const reviewTextStyle: React.CSSProperties = {
-  fontSize: '24px',
+  fontSize: '24px'
 }
 
 function MovieDetails() {
@@ -150,7 +150,17 @@ function MovieDetails() {
   const [reviews, setReviews] = useState<ReviewDetail[]>([])
 
   const navigate = useNavigate()
-  // const location = useLocation()
+  const location = useLocation()
+
+  const from = location.state.from
+  const beforePage =
+    from == '/'
+      ? 'ホーム'
+      : '/now_playing'
+        ? '上映中の映画'
+        : '/top_rated'
+          ? '評価の高い映画'
+          : '近日公開の映画'
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
@@ -189,8 +199,6 @@ function MovieDetails() {
     }
   }, [id])
 
-  // const pageType = location.state.pageType
-
   if (!movie) return <div>Loading...</div>
 
   return (
@@ -198,7 +206,7 @@ function MovieDetails() {
       <NavigationBar />
       <div style={headingStyle}>
         <button style={buttonResetStyle} onClick={() => navigate(-1)}>
-          {/* &lt;&lt;&#32;&#32;&#32;&#32;&#32;&#32;{pageType} */}
+          &lt;&lt;&#32;&#32;&#32;&#32;&#32;&#32;{beforePage}
         </button>
         <p style={titleStyle}>{movie.title}</p>
       </div>

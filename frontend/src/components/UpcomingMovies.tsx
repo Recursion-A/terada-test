@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { Pager, ListCard } from '@freee_jp/vibes'
 import NavigationBar from './NavigationBar'
 import config from '../config'
@@ -34,11 +34,12 @@ const CustomListCard: React.FC<Movie & { poster_path: string }> = ({
   poster_path,
   id
 }) => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
+  const location = useLocation()
 
   const handleClick = () => {
-    navigate(`/movie/${id}`, { state: { pageType: "近日公開の映画" } });
-  };
+    navigate(`/movie/${id}`, { state: { from: location.pathname } })
+  }
 
   return (
     <div style={cardStyle} onClick={handleClick}>
@@ -50,8 +51,8 @@ const CustomListCard: React.FC<Movie & { poster_path: string }> = ({
         />
       </ListCard>
     </div>
-  );
-};
+  )
+}
 
 const UpcomingMovies: React.FC = () => {
   const [movies, setMovies] = useState<Movie[]>([])
