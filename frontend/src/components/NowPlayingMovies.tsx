@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Pager, ListCard } from '@freee_jp/vibes'
 import NavigationBar from './NavigationBar'
 import config from '../config'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 type Movie = {
   id: number
@@ -35,9 +35,10 @@ const CustomListCard: React.FC<Movie & { poster_path: string }> = ({
   id
 }) => {
   const navigate = useNavigate();
+  const location = useLocation()
 
   const handleClick = () => {
-    navigate(`/movie/${id}`, { state: { pageType: "上映中の映画" } });
+    navigate(`/movie/${id}`, { state: { from: location.pathname } });
   };
 
   return (
