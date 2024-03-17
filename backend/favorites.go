@@ -35,7 +35,6 @@ func addFavorite(c echo.Context) error {
 	return c.JSON(http.StatusOK, map[string]string{"message": "Favorite added successfully"})
 }
 
-// お気に入り削除のエンドポイント
 func removeFavorite(c echo.Context) error {
 	var req favoriteRequest
 	if err := c.Bind(&req); err != nil {
@@ -92,7 +91,6 @@ func GetFavoriteMovies(c echo.Context) error {
 }
 func GetIsFavorite(c echo.Context) error {
 
-    // JWTトークンからユーザーIDを取得
     userId, err := getUserIdFromToken(c)
     if err != nil {
         return c.JSON(http.StatusBadRequest, map[string]string{"message": "Invalid user token"})
@@ -110,6 +108,5 @@ func GetIsFavorite(c echo.Context) error {
         return c.JSON(http.StatusInternalServerError, map[string]string{"message": "Failed to query favorite status"})
     }
 
-    // 結果をJSON形式でレスポンスとして返す
     return c.JSON(http.StatusOK, map[string]bool{"isFavorite": exists})
 }
