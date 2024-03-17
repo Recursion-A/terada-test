@@ -73,7 +73,7 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
   const handleRemoveFavorite = async () => {
     const token = localStorage.getItem('token')
     try {
-      const response = await fetch('/api/favorites/remove', {
+      const response = await fetch(`${config.apiUrl}/favorites/remove`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
