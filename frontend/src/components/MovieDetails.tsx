@@ -198,7 +198,7 @@ function MovieDetails() {
       <NavigationBar />
       <div style={headingStyle}>
         <button style={buttonResetStyle} onClick={() => navigate(-1)}>
-          &lt;&lt;&#32;&#32;&#32;&#32;&#32;&#32;{pageType}
+          {/* &lt;&lt;&#32;&#32;&#32;&#32;&#32;&#32;{pageType} */}
         </button>
         <p style={titleStyle}>{movie.title}</p>
       </div>

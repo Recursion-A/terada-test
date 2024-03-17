@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 interface FavoriteButtonProps {
   movieId: number
@@ -13,11 +13,9 @@ const favoriteButtonStyle: React.CSSProperties = {
 }
 
 const FavoriteButton: React.FC<FavoriteButtonProps> = ({
-  movieId,
-  movieTitle,
-  posterPath
+  movieId
 }) => {
-  const [isFavorite, setIsFavorite] = useState(false)
+  const [isFavorite, setIsFavorite] = useState<boolean | null>(null);
 
   const handleAddFavorite = async () => {
     const token = localStorage.getItem('token') // JWTトークンをローカルストレージから取得
@@ -30,8 +28,6 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
         },
         body: JSON.stringify({
           movie_id: movieId,
-          title: movieTitle,
-          image_url: posterPath
         })
       })
       if (response.ok) {
@@ -45,6 +41,35 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
     }
   }
 
+  useEffect(() => {
+    const checkIsFavorite = async () => {
+      const token = localStorage.getItem('token'); // JWTトークンをローカルストレージから取得
+      if (!token) {
+        console.error('Token not found');
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/favorites/is_favorite?movieId=${movieId}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        setIsFavorite(data.isFavorite);
+      } catch (error) {
+        console.error('Error fetching favorite status:', error);
+      }
+    };
+
+    checkIsFavorite();
+  }, [movieId]);
+
   const handleRemoveFavorite = async () => {
     const token = localStorage.getItem('token')
     try {
@@ -56,8 +81,6 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
         },
         body: JSON.stringify({
           movie_id: movieId,
-          title: movieTitle,
-          image_url: posterPath
         })
       })
       if (response.ok) {

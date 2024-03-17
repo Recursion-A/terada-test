@@ -33,6 +33,7 @@ func main() {
 	e.GET("/api/movies/search", GetMovieSearchHandler)
 	e.GET("/api/favorites", GetFavoriteMovies)
 	e.GET("/api/reviews/movie", GetReviewsFromMovieId)
+	e.GET("/api/favorites/is_favorite", GetIsFavorite)
 
 	// JWT Middleware setup for restricted routes
 	jwtMiddleware := middleware.JWTWithConfig(middleware.JWTConfig{
