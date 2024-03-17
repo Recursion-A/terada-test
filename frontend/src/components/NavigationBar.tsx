@@ -1,6 +1,5 @@
 import React from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { useAuth } from '../context/AuthContext'
 import { GlobalNavi } from '@freee_jp/vibes'
 import {
   MdHome,
@@ -12,9 +11,9 @@ import {
   MdSearch,
   MdAutoAwesome
 } from 'react-icons/md'
+import { isTokenValid } from '../Auth/authHelper'
 
 const NavigationBar: React.FC = () => {
-  const { state } = useAuth()
   const location = useLocation()
   const navigate = useNavigate()
 
@@ -36,7 +35,7 @@ const NavigationBar: React.FC = () => {
     { title: '映画をタイトルで検索', url: '/search', IconComponent: MdSearch }
   ]
 
-  if (state.isAuthenticated) {
+  if (isTokenValid()) {
     links.push({
       title: 'ログアウト',
       url: '/logout',
@@ -44,6 +43,7 @@ const NavigationBar: React.FC = () => {
     })
   } else {
     links.push({ title: 'ログイン', url: '/login', IconComponent: MdSettings })
+    localStorage.removeItem('token')
   }
 
   return (

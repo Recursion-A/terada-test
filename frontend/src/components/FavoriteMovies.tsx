@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { ListCard } from '@freee_jp/vibes'
 import NavigationBar from './NavigationBar'
 import config from '../config'
+import { isTokenValid } from '../Auth/authHelper'
+import { useNavigate } from 'react-router-dom'
 
 type Movie = {
   movie_id: number
@@ -35,17 +37,18 @@ const CustomListCard: React.FC<Movie & { image_url: string }> = ({
 }) => (
   <div style={cardStyle}>
     <ListCard title={title} url={`movie/${movie_id}`} ma={0.5}>
-      <img src={image_url} alt={title} style={imageStyle} />
+      <img src={`https://image.tmdb.org/t/p/w300${image_url}`} alt={title} style={imageStyle} />
     </ListCard>
   </div>
 )
 
 const FavoriteMovies: React.FC = () => {
   const [movies, setMovies] = useState<Movie[]>([])
-
+  console.log(movies)
+  const navigate = useNavigate()
   useEffect(() => {
     const token = localStorage.getItem('token') // JWTトークンをローカルストレージから取得
-    if (!token) return
+    if (!token || !isTokenValid()) navigate("/login")
 
     fetch(`${config.apiUrl}/favorites`, {
       headers: {
@@ -57,7 +60,7 @@ const FavoriteMovies: React.FC = () => {
         setMovies(data || [])
       })
       .catch((error) => console.error('Error fetching data:', error))
-  }, [])
+  }, [navigate])
 
   return (
     <div>
