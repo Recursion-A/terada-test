@@ -84,7 +84,7 @@ func login(c echo.Context) error {
 		return c.JSON(http.StatusUnauthorized, map[string]string{"error": "Invalid username or password", "providedPassword": u.Password, "storedPasswordHash": passwordHash})
 	}
 	// JWTトークンの生成
-	expirationTime := time.Now().Add(5 * time.Minute)
+	expirationTime := time.Now().Add(60 * time.Minute)
 	claims := &Claims{
 		UserID:   userID,
 		Username: u.Username,

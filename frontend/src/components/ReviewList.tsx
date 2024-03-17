@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import NavigationBar from './NavigationBar'
 import { Pager, ListCard } from '@freee_jp/vibes'
 import config from '../config'
+import { isTokenValid } from '../Auth/authHelper'
+import { useNavigate } from 'react-router-dom'
 
 type Review = {
   id: number
@@ -56,11 +58,12 @@ const ReviewMovies = () => {
   const [reviewDetails, setReviewDetails] = useState<ReviewDetail[]>([])
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(0)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const token = localStorage.getItem('token')
-    if (!token) return
-
+    if (!token || !isTokenValid()) navigate("/login")
+    
     fetch(`${config.apiUrl}/reviews`, {
       headers: {
         'Content-Type': 'application/json',
@@ -73,7 +76,7 @@ const ReviewMovies = () => {
         setTotalPages(Math.ceil(data.length / 20))
       })
       .catch((error) => console.error('Error fetching data:', error))
-  }, [])
+  }, [navigate])
 
   return (
     <div>
