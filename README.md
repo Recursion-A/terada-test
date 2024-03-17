@@ -8,8 +8,6 @@ TMDB API を利用して独自の Web API を開発しました。
 ## 🏠 URL
 [https://recursion-a.teradad41.com](https://recursion-a.teradad41.com)
 
-## ✨デモ
-
 ## 📝 説明
 この API はフロントエンドアプリケーションとデータベースをサポートし、映画に関連する情報と機能を提供します。
 
@@ -39,7 +37,7 @@ TMDB API を利用して独自の Web API を開発しました。
 - `POST /api/favorites/add`: お気に入り映画を追加します。
 - `POST /api/favorites/remove`: お気に入り映画を削除します。
 - `POST /api/reviews/add`: 映画に対するレビューを追加します。
-- `GET /api/reviews`: ユーザーによるレビューを取得します。
+- `GET /api/reviews`: ユーザー自身によるレビューを取得します。
 
 ## 💾 使用技術
 - フロントエンド：React, Vite

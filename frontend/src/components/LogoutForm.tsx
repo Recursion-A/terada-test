@@ -31,7 +31,7 @@ const LogoutForm: React.FC = () => {
 
   const handleLogout = () => {
     dispatch({ type: 'LOGOUT' })
-    localStorage.removeItem("token")
+    localStorage.removeItem('token')
     navigate('/')
   }
 

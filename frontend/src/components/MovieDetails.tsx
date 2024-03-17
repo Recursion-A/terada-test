@@ -108,7 +108,7 @@ const reviewTitleStyle: React.CSSProperties = {
   paddingBottom: '16px',
   fontWeight: 'bold',
   margin: '0 0 40px 40px',
-  display: 'inline-block',
+  display: 'inline-block'
 }
 
 const reviewContainerStyle: React.CSSProperties = {
@@ -141,7 +141,7 @@ const reviewTextWrapStyle: React.CSSProperties = {
 }
 
 const reviewTextStyle: React.CSSProperties = {
-  fontSize: '24px',
+  fontSize: '24px'
 }
 
 function MovieDetails() {
@@ -175,6 +175,7 @@ function MovieDetails() {
           setReviews(data)
         } else {
           console.error('Received data is not an array:', data)
+          setReviews([])
           setReviews([])
         }
       } catch (error) {
