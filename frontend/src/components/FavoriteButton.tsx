@@ -20,7 +20,7 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
   const handleAddFavorite = async () => {
     const token = localStorage.getItem('token') // JWTトークンをローカルストレージから取得
     try {
-      const response = await fetch('favorites/add', {
+      const response = await fetch(`${config.apiUrl}/favorites/add`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
