@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import config from '../config'
 
 interface FavoriteButtonProps {
   movieId: number
@@ -16,11 +17,10 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
   movieId
 }) => {
   const [isFavorite, setIsFavorite] = useState<boolean | null>(null);
-
   const handleAddFavorite = async () => {
     const token = localStorage.getItem('token') // JWTトークンをローカルストレージから取得
     try {
-      const response = await fetch('/api/favorites/add', {
+      const response = await fetch('favorites/add', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
@@ -50,7 +50,7 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
       }
 
       try {
-        const response = await fetch(`/api/favorites/is_favorite?movieId=${movieId}`, {
+        const response = await fetch(`${config.apiUrl}/favorites/is_favorite?movieId=${movieId}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
