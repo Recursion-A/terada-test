@@ -37,7 +37,11 @@ const CustomListCard: React.FC<Movie & { image_url: string }> = ({
 }) => (
   <div style={cardStyle}>
     <ListCard title={title} url={`movie/${movie_id}`} ma={0.5}>
-      <img src={`https://image.tmdb.org/t/p/w300${image_url}`} alt={title} style={imageStyle} />
+      <img
+        src={`https://image.tmdb.org/t/p/w300${image_url}`}
+        alt={title}
+        style={imageStyle}
+      />
     </ListCard>
   </div>
 )
@@ -48,7 +52,7 @@ const FavoriteMovies: React.FC = () => {
   const navigate = useNavigate()
   useEffect(() => {
     const token = localStorage.getItem('token') // JWTトークンをローカルストレージから取得
-    if (!token || !isTokenValid()) navigate("/login")
+    if (!token || !isTokenValid()) navigate('/login')
 
     fetch(`${config.apiUrl}/favorites`, {
       headers: {

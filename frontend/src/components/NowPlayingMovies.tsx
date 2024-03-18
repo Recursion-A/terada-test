@@ -34,12 +34,12 @@ const CustomListCard: React.FC<Movie & { poster_path: string }> = ({
   poster_path,
   id
 }) => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const location = useLocation()
 
   const handleClick = () => {
-    navigate(`/movie/${id}`, { state: { from: location.pathname } });
-  };
+    navigate(`/movie/${id}`, { state: { from: location.pathname } })
+  }
 
   return (
     <div style={cardStyle} onClick={handleClick}>
@@ -51,8 +51,8 @@ const CustomListCard: React.FC<Movie & { poster_path: string }> = ({
         />
       </ListCard>
     </div>
-  );
-};
+  )
+}
 const NowPlayingMovies: React.FC = () => {
   const [movies, setMovies] = useState<Movie[]>([])
   const [page, setPage] = useState(1)

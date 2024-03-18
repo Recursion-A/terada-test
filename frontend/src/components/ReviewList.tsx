@@ -62,8 +62,8 @@ const ReviewMovies = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token')
-    if (!token || !isTokenValid()) navigate("/login")
-    
+    if (!token || !isTokenValid()) navigate('/login')
+
     fetch(`${config.apiUrl}/reviews`, {
       headers: {
         'Content-Type': 'application/json',

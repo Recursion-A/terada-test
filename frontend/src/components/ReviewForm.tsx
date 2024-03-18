@@ -12,7 +12,7 @@ const containerStyle: React.CSSProperties = {
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  flexDirection: 'column',
+  flexDirection: 'column'
 }
 
 const contentsStyle = {
@@ -109,7 +109,9 @@ const ReviewForm = () => {
             />
           </div>
         </div>
-        <button style={buttonStyle} type="submit">Submit Review</button>
+        <button style={buttonStyle} type="submit">
+          Submit Review
+        </button>
       </form>
     </div>
   )
