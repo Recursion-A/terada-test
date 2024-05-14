@@ -7,6 +7,7 @@ services:
       args:
         BUILD_MODE: ${BUILD_MODE:-production}
     container_name: frontend
+    restart: always
     tty: true
     ports:
       - 4173:4173
@@ -19,6 +20,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     container_name: backend
+    restart: always
     tty: true
     ports:
       - 8080:8080
@@ -29,6 +31,7 @@ services:
     image: mysql
     platform: linux/amd64
     container_name: mysql_container
+    restart: always
     ports:
       - 3306:3306
     environment:
